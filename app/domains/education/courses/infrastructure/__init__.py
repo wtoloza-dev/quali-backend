@@ -1,0 +1,1 @@
+"""Courses subdomain infrastructure layer."""

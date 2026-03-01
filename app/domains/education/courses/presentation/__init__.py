@@ -1,0 +1,1 @@
+"""Courses subdomain presentation layer."""

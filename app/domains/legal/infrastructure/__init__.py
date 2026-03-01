@@ -1,0 +1,1 @@
+"""Legal domain infrastructure layer."""

@@ -1,0 +1,1 @@
+"""Assessments subdomain domain layer."""
