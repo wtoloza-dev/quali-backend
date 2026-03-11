@@ -57,10 +57,10 @@ async def handle_update_me_route(
     existing = await get_use_case.execute(auth.user_id)
     patch = body.model_dump(exclude_none=True)
 
-    # Reject changes to fields that are already set.
+    # Reject changes to fields that are already set to a different value.
     locked = [
         f for f in _LOCKED_FIELDS
-        if f in patch and getattr(existing, f, None)
+        if f in patch and getattr(existing, f, None) and patch[f] != getattr(existing, f)
     ]
     if locked:
         raise UnprocessableException(

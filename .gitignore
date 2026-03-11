@@ -31,3 +31,6 @@ htmlcov/
 # AI Agents
 .claude/
 .cursor/
+
+# Personal notes
+TODO*.md

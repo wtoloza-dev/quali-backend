@@ -10,17 +10,13 @@ Routes that require authentication declare ``CurrentUserDependency`` or
 UnauthorizedException if no context was set.
 """
 
-import os
-
 from starlette.types import ASGIApp, Receive, Scope, Send
 
+from app.core.settings import settings
 from app.shared.auth.auth_context import AuthContext
 from app.shared.auth.auth_context_var import reset_auth_context, set_auth_context
 from app.shared.exceptions import UnauthorizedException
 from app.shared.services.firebase_auth_service import get_firebase_auth_service
-
-
-_SCOPE = os.getenv("SCOPE", "local")
 _DEV_SEED_HEADER = "x-dev-seed"
 
 
@@ -67,7 +63,7 @@ class AuthMiddleware:
                     reset_token = set_auth_context(ctx)
                 except (UnauthorizedException, Exception):
                     pass  # soft fail — unauthenticated routes still work
-            elif _SCOPE == "local" and headers.get(b"x-dev-seed"):
+            elif settings.SCOPE == "local" and headers.get(b"x-dev-seed"):
                 # Local dev bypass: allow seed scripts to authenticate
                 # by sending the x-dev-seed header with a fake user ID.
                 fake_uid = headers[b"x-dev-seed"].decode()

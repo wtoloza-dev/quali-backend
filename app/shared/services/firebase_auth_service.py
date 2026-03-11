@@ -4,7 +4,6 @@ Verifies Firebase ID tokens using Google's public keys directly,
 without requiring a service account or Application Default Credentials.
 """
 
-import os
 from functools import lru_cache
 
 import jwt
@@ -66,7 +65,8 @@ class FirebaseAuthService:
 @lru_cache
 def get_firebase_auth_service() -> FirebaseAuthService:
     """Return the shared FirebaseAuthService singleton."""
-    project_id = os.getenv("FIREBASE_PROJECT_ID", "")
-    if not project_id:
-        raise RuntimeError("FIREBASE_PROJECT_ID environment variable is required")
-    return FirebaseAuthService(project_id)
+    from app.core.settings import settings
+
+    if not settings.FIREBASE_PROJECT_ID:
+        raise RuntimeError("FIREBASE_PROJECT_ID is required")
+    return FirebaseAuthService(settings.FIREBASE_PROJECT_ID)

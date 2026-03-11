@@ -22,3 +22,4 @@ class BaseAppSettings(BaseSettings):
     SCOPE: str
     DATABASE_URL: str
     ENCRYPTION_KEY: str = ""
+    FIREBASE_PROJECT_ID: str = ""
