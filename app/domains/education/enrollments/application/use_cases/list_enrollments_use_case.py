@@ -24,12 +24,14 @@ class ListEnrollmentsUseCase:
     async def execute(
         self,
         company_id: str,
+        user_id: str,
         params: PaginationParams,
     ) -> tuple[list[EnrollmentEntity], int]:
-        """Return paginated enrollments for the given company.
+        """Return paginated enrollments for a user within a company.
 
         Args:
             company_id: ULID of the company to scope the listing.
+            user_id: ULID of the authenticated user.
             params: Pagination parameters.
 
         Returns:
@@ -37,6 +39,7 @@ class ListEnrollmentsUseCase:
         """
         return await self._repository.list_by_company(
             company_id=company_id,
+            user_id=user_id,
             page=params.page,
             page_size=params.page_size,
         )

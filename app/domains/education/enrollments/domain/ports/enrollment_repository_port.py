@@ -88,13 +88,15 @@ class EnrollmentRepositoryPort(Protocol):
     async def list_by_company(
         self,
         company_id: str,
+        user_id: str,
         page: int,
         page_size: int,
     ) -> tuple[list[EnrollmentEntity], int]:
-        """Return paginated enrollments for a company.
+        """Return paginated enrollments for a user within a company.
 
         Args:
             company_id: The company whose enrollments to list.
+            user_id: The user whose enrollments to return.
             page: 1-based page number.
             page_size: Number of items per page.
 

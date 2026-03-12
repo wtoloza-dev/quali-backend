@@ -173,13 +173,15 @@ class EnrollmentRepository:
     async def list_by_company(
         self,
         company_id: str,
+        user_id: str,
         page: int,
         page_size: int,
     ) -> tuple[list[EnrollmentEntity], int]:
-        """Return a paginated slice of enrollments for a company.
+        """Return a paginated slice of enrollments for a user within a company.
 
         Args:
             company_id: ULID of the company to scope the listing.
+            user_id: ULID of the user whose enrollments to return.
             page: 1-based page number.
             page_size: Number of items per page.
 
@@ -189,13 +191,19 @@ class EnrollmentRepository:
         count_stmt = (
             select(func.count())
             .select_from(EnrollmentModel)
-            .where(EnrollmentModel.company_id == company_id)
+            .where(
+                EnrollmentModel.company_id == company_id,
+                EnrollmentModel.user_id == user_id,
+            )
         )
         total = (await self._session.exec(count_stmt)).one()
 
         stmt = (
             select(EnrollmentModel)
-            .where(EnrollmentModel.company_id == company_id)
+            .where(
+                EnrollmentModel.company_id == company_id,
+                EnrollmentModel.user_id == user_id,
+            )
             .offset((page - 1) * page_size)
             .limit(page_size)
         )
