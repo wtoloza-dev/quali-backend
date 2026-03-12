@@ -19,3 +19,6 @@ class QuestionType(StrEnum):
     TRUE_FALSE = "true_false"
     WORD_SEARCH = "word_search"
     CROSSWORD = "crossword"
+    SORTING = "sorting"
+    CLASSIFICATION = "classification"
+    MATCHING = "matching"

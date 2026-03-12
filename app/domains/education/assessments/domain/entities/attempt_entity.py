@@ -21,6 +21,9 @@ class AnswerEntry(BaseModel):
     selected_indices: list[int] = []
     found_words: list[str] = []
     cell_answers: dict[str, str] = {}
+    sorted_indices: list[int] = []
+    classified_items: dict[str, int] = {}
+    matched_pairs: dict[str, str] = {}
 
 
 class AttemptData(BaseModel):

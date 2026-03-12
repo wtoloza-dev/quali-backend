@@ -73,9 +73,64 @@ class CrosswordConfig(BaseModel):
     grid_cols: int
 
 
+# ── Sorting ────────────────────────────────────────────────────────────
+
+
+class SortingConfig(BaseModel):
+    """Config for sorting/ordering questions.
+
+    Items are stored in correct order — index position IS the answer.
+    Frontend shuffles for display, student reorders.
+    """
+
+    type: Literal["sorting"] = "sorting"
+    items: list[str]
+
+
+# ── Classification ────────────────────────────────────────────────────
+
+
+class ClassificationCategory(BaseModel):
+    """A single category bucket."""
+
+    label: str
+
+
+class ClassificationItem(BaseModel):
+    """An item to classify."""
+
+    text: str
+    correct_category: int
+
+
+class ClassificationConfig(BaseModel):
+    """Config for classification/categorization questions."""
+
+    type: Literal["classification"] = "classification"
+    categories: list[ClassificationCategory]
+    items: list[ClassificationItem]
+
+
+# ── Matching ──────────────────────────────────────────────────────────
+
+
+class MatchingPair(BaseModel):
+    """A pair of items to match."""
+
+    left: str
+    right: str
+
+
+class MatchingConfig(BaseModel):
+    """Config for matching/pairing questions."""
+
+    type: Literal["matching"] = "matching"
+    pairs: list[MatchingPair]
+
+
 # ── Discriminated union ────────────────────────────────────────────────
 
 QuestionConfig = Annotated[
-    MultipleChoiceConfig | WordSearchConfig | CrosswordConfig,
+    MultipleChoiceConfig | WordSearchConfig | CrosswordConfig | SortingConfig | ClassificationConfig | MatchingConfig,
     Field(discriminator="type"),
 ]

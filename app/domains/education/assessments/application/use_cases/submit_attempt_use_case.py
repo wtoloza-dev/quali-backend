@@ -16,6 +16,9 @@ from ...domain.entities import (
     MultipleChoiceConfig,
     QuestionEntity,
     WordSearchConfig,
+    SortingConfig,
+    ClassificationConfig,
+    MatchingConfig,
 )
 from ...domain.exceptions import MaxAttemptsExceededException
 from ...domain.ports import AttemptRepositoryPort, QuestionRepositoryPort
@@ -193,6 +196,26 @@ class SubmitAttemptUseCase:
                 is_correct = all(
                     user_cells.get(k) == v for k, v in expected.items()
                 )
+
+            elif question.question_type == QuestionType.SORTING:
+                cfg = question.config
+                assert isinstance(cfg, SortingConfig)
+                correct_order = list(range(len(cfg.items)))
+                is_correct = answer.sorted_indices == correct_order
+
+            elif question.question_type == QuestionType.CLASSIFICATION:
+                cfg = question.config
+                assert isinstance(cfg, ClassificationConfig)
+                expected_class = {item.text.upper(): item.correct_category for item in cfg.items}
+                student_class = {k.upper(): v for k, v in answer.classified_items.items()}
+                is_correct = expected_class == student_class
+
+            elif question.question_type == QuestionType.MATCHING:
+                cfg = question.config
+                assert isinstance(cfg, MatchingConfig)
+                expected_match = {pair.left.upper(): pair.right.upper() for pair in cfg.pairs}
+                student_match = {k.upper(): v.upper() for k, v in answer.matched_pairs.items()}
+                is_correct = expected_match == student_match
 
             if is_correct:
                 correct += 1
