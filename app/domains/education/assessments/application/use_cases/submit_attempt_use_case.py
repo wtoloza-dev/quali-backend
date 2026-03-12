@@ -7,18 +7,19 @@ from ulid import ULID
 from app.domains.education.courses.domain.ports import CourseRepositoryPort
 from app.domains.education.enrollments.domain.enums import EnrollmentStatus
 from app.domains.education.enrollments.domain.ports import EnrollmentRepositoryPort
+from app.shared.exceptions import ForbiddenException, NotFoundException
 
 from ...domain.entities import (
     AnswerEntry,
     AttemptData,
     AttemptEntity,
+    ClassificationConfig,
     CrosswordConfig,
+    MatchingConfig,
     MultipleChoiceConfig,
     QuestionEntity,
-    WordSearchConfig,
     SortingConfig,
-    ClassificationConfig,
-    MatchingConfig,
+    WordSearchConfig,
 )
 from ...domain.exceptions import MaxAttemptsExceededException
 from ...domain.ports import AttemptRepositoryPort, QuestionRepositoryPort
@@ -51,7 +52,19 @@ class SubmitAttemptUseCase:
     ) -> AttemptEntity:
         """Grade and persist an assessment attempt."""
         enrollment = await self._enrollments.get_by_id(data.enrollment_id)
-        course = await self._courses.get_by_id(enrollment.course_id)  # type: ignore[union-attr]
+        if enrollment is None:
+            raise NotFoundException(
+                message="Enrollment not found.",
+                context={"enrollment_id": data.enrollment_id},
+                error_code="ENROLLMENT_NOT_FOUND",
+            )
+        if enrollment.user_id != submitted_by:
+            raise ForbiddenException(
+                message="You do not have access to this enrollment.",
+                context={"enrollment_id": data.enrollment_id},
+                error_code="ENROLLMENT_ACCESS_DENIED",
+            )
+        course = await self._courses.get_by_id(enrollment.course_id)
 
         max_attempts = course.max_attempts if course else 3  # type: ignore[union-attr]
 
