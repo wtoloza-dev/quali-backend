@@ -40,6 +40,10 @@ from .build_remove_company_member_use_case_dependency import (
     RemoveCompanyMemberUseCaseDependency,
     build_remove_company_member_use_case,
 )
+from .build_update_company_member_use_case_dependency import (
+    UpdateCompanyMemberUseCaseDependency,
+    build_update_company_member_use_case,
+)
 from .build_update_company_use_case_dependency import (
     UpdateCompanyUseCaseDependency,
     build_update_company_use_case,
@@ -69,4 +73,6 @@ __all__ = [
     "GetCompanyMembersUseCaseDependency",
     "build_remove_company_member_use_case",
     "RemoveCompanyMemberUseCaseDependency",
+    "build_update_company_member_use_case",
+    "UpdateCompanyMemberUseCaseDependency",
 ]

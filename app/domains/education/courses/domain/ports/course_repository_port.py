@@ -90,3 +90,19 @@ class CourseRepositoryPort(Protocol):
             Tuple of (list of CourseEntity, total count).
         """
         ...
+
+    async def list_all(
+        self,
+        page: int,
+        page_size: int,
+    ) -> tuple[list[CourseEntity], int]:
+        """Return all courses paginated, no company filter.
+
+        Args:
+            page: 1-based page number.
+            page_size: Number of items per page.
+
+        Returns:
+            Tuple of (list of CourseEntity, total count).
+        """
+        ...

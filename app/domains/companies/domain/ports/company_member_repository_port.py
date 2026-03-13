@@ -49,6 +49,17 @@ class CompanyMemberRepositoryPort(Protocol):
         """
         ...
 
+    async def update(self, entity: CompanyMemberEntity) -> CompanyMemberEntity:
+        """Persist changes to an existing company member entity.
+
+        Args:
+            entity: The company member entity with updated fields.
+
+        Returns:
+            CompanyMemberEntity: The updated entity after persistence.
+        """
+        ...
+
     async def delete(self, company_member_id: str, deleted_by: str) -> None:
         """Hard-delete a company membership and archive a tombstone snapshot for audit purposes.
 

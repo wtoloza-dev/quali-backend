@@ -10,6 +10,7 @@ from .delete_lesson_use_case import DeleteLessonUseCase
 from .delete_module_use_case import DeleteModuleUseCase
 from .get_course_use_case import GetCourseUseCase
 from .get_lesson_use_case import GetLessonUseCase
+from .list_all_courses_use_case import ListAllCoursesUseCase
 from .list_courses_use_case import ListCoursesUseCase
 from .list_lessons_use_case import ListLessonsUseCase
 from .list_modules_use_case import ListModulesUseCase
@@ -41,4 +42,5 @@ __all__ = [
     "ReorderLessonsUseCase",
     "DeleteLessonUseCase",
     "CheckCourseAccessUseCase",
+    "ListAllCoursesUseCase",
 ]

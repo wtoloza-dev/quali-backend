@@ -8,6 +8,7 @@ from .company_private_response_schema import (
 )
 from .company_public_response_schema import CompanyPublicResponseSchema
 from .create_company_schema import CreateCompanyRequestSchema
+from .update_company_member_schema import UpdateCompanyMemberRequestSchema
 from .update_company_schema import TaxRequestSchema, UpdateCompanyRequestSchema
 
 
@@ -20,4 +21,5 @@ __all__ = [
     "CompanyPrivateResponseSchema",
     "AddCompanyMemberRequestSchema",
     "CompanyMemberResponseSchema",
+    "UpdateCompanyMemberRequestSchema",
 ]

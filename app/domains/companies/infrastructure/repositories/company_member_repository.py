@@ -91,6 +91,29 @@ class CompanyMemberRepository:
         result = await self._session.exec(statement)
         return [self._to_entity(model) for model in result.all()]
 
+    async def update(self, entity: CompanyMemberEntity) -> CompanyMemberEntity:
+        """Persist changes to an existing company member entity.
+
+        Args:
+            entity: The company member entity with updated fields.
+
+        Returns:
+            CompanyMemberEntity: The updated entity after persistence.
+        """
+        statement = select(CompanyMemberModel).where(CompanyMemberModel.id == entity.id)
+        result = await self._session.exec(statement)
+        model = result.first()
+        if model is None:
+            return entity
+
+        model.role = entity.role
+        model.updated_by = entity.updated_by
+
+        self._session.add(model)
+        await self._session.flush()
+        await self._session.refresh(model)
+        return self._to_entity(model)
+
     async def delete(self, company_member_id: str, deleted_by: str) -> None:
         """Hard-delete a membership and save a tombstone snapshot for audit purposes.
 

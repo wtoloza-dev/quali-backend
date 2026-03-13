@@ -31,6 +31,4 @@ class GetCompanyMemberMeUseCase:
         Returns:
             CompanyMemberEntity if the user is a member, None otherwise.
         """
-        return await self._repository.get_by_company_and_user(
-            company_id, user_id
-        )
+        return await self._repository.get_by_company_and_user(company_id, user_id)

@@ -180,6 +180,27 @@ class CourseRepository:
         models = (await self._session.exec(stmt)).all()
         return [self._to_entity(m) for m in models], total
 
+    async def list_all(
+        self,
+        page: int,
+        page_size: int,
+    ) -> tuple[list[CourseEntity], int]:
+        """Return all courses paginated, no company filter.
+
+        Args:
+            page: 1-based page number.
+            page_size: Number of items per page.
+
+        Returns:
+            Tuple of (list of CourseEntity, total count).
+        """
+        count_stmt = select(func.count()).select_from(CourseModel)
+        total = (await self._session.exec(count_stmt)).one()
+
+        stmt = select(CourseModel).offset((page - 1) * page_size).limit(page_size)
+        models = (await self._session.exec(stmt)).all()
+        return [self._to_entity(m) for m in models], total
+
     @staticmethod
     def _to_entity(model: CourseModel) -> CourseEntity:
         """Map a CourseModel to a CourseEntity.

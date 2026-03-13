@@ -14,6 +14,9 @@ from .build_delete_module_use_case_dependency import DeleteModuleUseCaseDependen
 from .build_get_course_use_case_dependency import GetCourseUseCaseDependency
 from .build_get_lesson_use_case_dependency import GetLessonUseCaseDependency
 from .build_lesson_repository_dependency import LessonRepositoryDependency
+from .build_list_all_courses_use_case_dependency import (
+    ListAllCoursesUseCaseDependency,
+)
 from .build_list_courses_use_case_dependency import ListCoursesUseCaseDependency
 from .build_list_lessons_use_case_dependency import ListLessonsUseCaseDependency
 from .build_list_modules_use_case_dependency import ListModulesUseCaseDependency
@@ -49,4 +52,5 @@ __all__ = [
     "ReorderLessonsUseCaseDependency",
     "DeleteLessonUseCaseDependency",
     "CheckCourseAccessUseCaseDependency",
+    "ListAllCoursesUseCaseDependency",
 ]

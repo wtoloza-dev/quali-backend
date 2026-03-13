@@ -29,6 +29,9 @@ from app.domains.education.assessments.presentation.routes import (
 from app.domains.education.assessments.presentation.routes import (
     questions_router as assessment_questions_router,
 )
+from app.domains.education.courses.presentation.routes.global_courses_route import (
+    router as global_courses_router,
+)
 from app.domains.education.enrollments.presentation.routes import (
     router as enrollments_router,
 )
@@ -66,6 +69,12 @@ def register_routes(app: FastAPI) -> None:
         education_router,
         prefix="/companies/{company_id}/education/courses",
         tags=["Education — Courses"],
+    )
+    # Education — All Courses (superadmin, global)
+    api_v1_router.include_router(
+        global_courses_router,
+        prefix="/education/courses",
+        tags=["Education — Courses (Global)"],
     )
     # Education — Access Codes
     # TODO: Integrate Wompi payment gateway (wompi.com/es/co)

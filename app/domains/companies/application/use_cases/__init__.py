@@ -8,6 +8,7 @@ from .get_company_members_use_case import GetCompanyMembersUseCase
 from .get_company_use_case import GetCompanyUseCase
 from .list_companies_use_case import ListCompaniesUseCase
 from .remove_company_member_use_case import RemoveCompanyMemberUseCase
+from .update_company_member_use_case import UpdateCompanyMemberUseCase
 from .update_company_use_case import UpdateCompanyUseCase
 
 
@@ -21,4 +22,5 @@ __all__ = [
     "GetCompanyMemberMeUseCase",
     "GetCompanyMembersUseCase",
     "RemoveCompanyMemberUseCase",
+    "UpdateCompanyMemberUseCase",
 ]
