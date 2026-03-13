@@ -50,6 +50,9 @@ async def handle_submit_attempt_route(
                 selected_indices=a.selected_indices,
                 found_words=a.found_words,
                 cell_answers=a.cell_answers,
+                sorted_indices=a.sorted_indices,
+                classified_items=a.classified_items,
+                matched_pairs=a.matched_pairs,
             )
             for a in body.answers
         ],

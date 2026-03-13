@@ -1,4 +1,9 @@
-"""Enrollments subdomain dependency factories."""
+"""Enrollments subdomain dependency factories.
+
+Note: CompleteEnrollmentUseCaseDependency is NOT re-exported here to avoid
+a circular import (enrollments → assessments → enrollments). Import it
+directly from its module instead.
+"""
 
 from .build_enroll_user_use_case_dependency import EnrollUserUseCaseDependency
 from .build_enrollment_repository_dependency import EnrollmentRepositoryDependency

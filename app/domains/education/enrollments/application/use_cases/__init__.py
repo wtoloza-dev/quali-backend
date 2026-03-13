@@ -1,5 +1,6 @@
 """Enrollments subdomain use cases."""
 
+from .complete_enrollment_use_case import CompleteEnrollmentUseCase
 from .enroll_user_use_case import EnrollUserUseCase
 from .get_enrollment_use_case import GetEnrollmentUseCase
 from .list_company_enrollments_use_case import ListCompanyEnrollmentsUseCase
@@ -9,6 +10,7 @@ from .update_enrollment_status_use_case import UpdateEnrollmentStatusUseCase
 
 
 __all__ = [
+    "CompleteEnrollmentUseCase",
     "EnrollUserUseCase",
     "GetEnrollmentUseCase",
     "ListCompanyEnrollmentsUseCase",
