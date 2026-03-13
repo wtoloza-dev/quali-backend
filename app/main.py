@@ -126,8 +126,10 @@ def register_middlewares(app: FastAPI) -> None:
         allow_origins=[
             "http://localhost:3000",
             "http://localhost:3001",
+            "http://localhost:3002",
             "https://quali.tchunza.com",
             "https://company.quali.tchunza.com",
+            "https://admin.quali.tchunza.com",
         ],
         allow_credentials=True,
         allow_methods=["*"],
