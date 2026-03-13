@@ -31,13 +31,23 @@ class EnrollUserUseCase:
     ) -> EnrollmentEntity:
         """Persist a new enrollment record.
 
+        Returns the existing enrollment if the user is already enrolled
+        in the course, preventing duplicates.
+
         Args:
             data: Enrollment data specifying user, course, and company.
             created_by: ULID of the actor creating the enrollment.
 
         Returns:
-            EnrollmentEntity: The persisted enrollment.
+            EnrollmentEntity: The persisted or existing enrollment.
         """
+        existing = await self._repository.get_by_user_and_course(
+            user_id=data.user_id,
+            course_id=data.course_id,
+        )
+        if existing is not None:
+            return existing
+
         now = datetime.now(UTC)
         entity = EnrollmentEntity(
             id=str(ULID()),

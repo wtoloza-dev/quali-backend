@@ -26,6 +26,9 @@ class EnrollmentModel(AuditModel, table=True):
     """
 
     __tablename__ = "enrollments"
+    __table_args__ = (
+        sa.UniqueConstraint("user_id", "course_id", name="uq_enrollments_user_course"),
+    )
 
     user_id: str = Field(nullable=False, index=True)
     course_id: str = Field(nullable=False, index=True)

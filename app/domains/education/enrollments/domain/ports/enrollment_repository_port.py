@@ -51,6 +51,20 @@ class EnrollmentRepositoryPort(Protocol):
         """
         ...
 
+    async def get_by_user_and_course(
+        self, user_id: str, course_id: str
+    ) -> EnrollmentEntity | None:
+        """Return any enrollment for a user+course pair regardless of status.
+
+        Args:
+            user_id: The ULID of the user.
+            course_id: The ULID of the course.
+
+        Returns:
+            EnrollmentEntity if found, None otherwise.
+        """
+        ...
+
     async def get_active_enrollment(
         self, user_id: str, course_id: str
     ) -> EnrollmentEntity | None:

@@ -82,6 +82,26 @@ class EnrollmentRepository:
         model = result.first()
         return self._to_entity(model) if model else None
 
+    async def get_by_user_and_course(
+        self, user_id: str, course_id: str
+    ) -> EnrollmentEntity | None:
+        """Return any enrollment for a user+course pair regardless of status.
+
+        Args:
+            user_id: The ULID of the user.
+            course_id: The ULID of the course.
+
+        Returns:
+            EnrollmentEntity if found, None otherwise.
+        """
+        statement = select(EnrollmentModel).where(
+            EnrollmentModel.user_id == user_id,
+            EnrollmentModel.course_id == course_id,
+        )
+        result = await self._session.exec(statement)
+        model = result.first()
+        return self._to_entity(model) if model else None
+
     async def get_active_enrollment(
         self, user_id: str, course_id: str
     ) -> EnrollmentEntity | None:
