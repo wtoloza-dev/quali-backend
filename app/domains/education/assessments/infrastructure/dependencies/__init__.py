@@ -6,6 +6,7 @@ from .build_delete_question_use_case_dependency import DeleteQuestionUseCaseDepe
 from .build_list_attempts_use_case_dependency import ListAttemptsUseCaseDependency
 from .build_list_questions_use_case_dependency import ListQuestionsUseCaseDependency
 from .build_question_repository_dependency import QuestionRepositoryDependency
+from .build_reset_attempts_use_case_dependency import ResetAttemptsUseCaseDependency
 from .build_submit_attempt_use_case_dependency import SubmitAttemptUseCaseDependency
 
 
@@ -17,4 +18,5 @@ __all__ = [
     "ListQuestionsUseCaseDependency",
     "SubmitAttemptUseCaseDependency",
     "ListAttemptsUseCaseDependency",
+    "ResetAttemptsUseCaseDependency",
 ]

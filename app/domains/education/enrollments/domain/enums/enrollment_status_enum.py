@@ -8,7 +8,7 @@ from enum import StrEnum
 # Valid transitions: current status → set of allowed next statuses.
 _TRANSITIONS: dict[str, set[str]] = {
     "not_started": {"in_progress"},
-    "in_progress": {"completed", "failed"},
+    "in_progress": {"completed", "failed", "not_started"},
     "completed": {"not_started"},
     "failed": {"not_started"},
 }
@@ -19,8 +19,8 @@ class EnrollmentStatus(StrEnum):
 
     Valid transitions:
         not_started → in_progress
-        in_progress → completed | failed
-        completed   → (terminal — no further transitions)
+        in_progress → completed | failed | not_started  (admin reset)
+        completed   → not_started  (admin reset)
         failed      → not_started  (allows reset for re-enrollment)
     """
 

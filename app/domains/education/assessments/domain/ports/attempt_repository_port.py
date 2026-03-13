@@ -54,3 +54,30 @@ class AttemptRepositoryPort(Protocol):
             List of AttemptEntity sorted by attempt_number ascending.
         """
         ...
+
+    async def delete_by_enrollment(self, enrollment_id: str, deleted_by: str) -> int:
+        """Delete all attempts for an enrollment and archive tombstones.
+
+        Args:
+            enrollment_id: The ULID of the enrollment.
+            deleted_by: ULID of the user performing the deletion.
+
+        Returns:
+            Number of deleted attempts.
+        """
+        ...
+
+    async def delete_by_enrollment_and_module(
+        self, enrollment_id: str, module_id: str, deleted_by: str
+    ) -> int:
+        """Delete attempts for a specific module within an enrollment.
+
+        Args:
+            enrollment_id: The ULID of the enrollment.
+            module_id: The ULID of the module.
+            deleted_by: ULID of the user performing the deletion.
+
+        Returns:
+            Number of deleted attempts.
+        """
+        ...

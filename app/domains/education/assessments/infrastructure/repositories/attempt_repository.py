@@ -1,7 +1,11 @@
 """Assessment attempt repository."""
 
+from datetime import UTC, datetime
+
 from sqlmodel import asc, func, select
 from sqlmodel.ext.asyncio.session import AsyncSession
+
+from app.shared.models.entity_tombstone_model import EntityTombstoneModel
 
 from ...domain.entities import AnswerEntry, AttemptEntity
 from ..models.attempt_model import AttemptModel
@@ -91,6 +95,98 @@ class AttemptRepository:
         )
         result = await self._session.exec(statement)
         return [self._to_entity(m) for m in result.all()]
+
+    async def delete_by_enrollment(self, enrollment_id: str, deleted_by: str) -> int:
+        """Delete all attempts for an enrollment and archive tombstones.
+
+        Args:
+            enrollment_id: The ULID of the enrollment.
+            deleted_by: ULID of the user performing the deletion.
+
+        Returns:
+            Number of deleted attempts.
+        """
+        statement = select(AttemptModel).where(
+            AttemptModel.enrollment_id == enrollment_id
+        )
+        result = await self._session.exec(statement)
+        models = result.all()
+
+        for model in models:
+            tombstone = EntityTombstoneModel(
+                entity_type="assessment_attempt",
+                entity_id=model.id,
+                payload={
+                    "id": model.id,
+                    "enrollment_id": model.enrollment_id,
+                    "module_id": model.module_id,
+                    "score": model.score,
+                    "passed": model.passed,
+                    "attempt_number": model.attempt_number,
+                    "answers": model.answers,
+                    "correct_question_ids": model.correct_question_ids,
+                    "taken_at": model.taken_at.isoformat() if model.taken_at else None,
+                    "created_at": model.created_at.isoformat()
+                    if model.created_at
+                    else None,
+                    "created_by": model.created_by,
+                },
+                deleted_at=datetime.now(UTC),
+                deleted_by=deleted_by,
+            )
+            self._session.add(tombstone)
+            await self._session.delete(model)
+
+        await self._session.flush()
+        return len(models)
+
+    async def delete_by_enrollment_and_module(
+        self, enrollment_id: str, module_id: str, deleted_by: str
+    ) -> int:
+        """Delete attempts for a specific module within an enrollment.
+
+        Args:
+            enrollment_id: The ULID of the enrollment.
+            module_id: The ULID of the module.
+            deleted_by: ULID of the user performing the deletion.
+
+        Returns:
+            Number of deleted attempts.
+        """
+        statement = select(AttemptModel).where(
+            AttemptModel.enrollment_id == enrollment_id,
+            AttemptModel.module_id == module_id,
+        )
+        result = await self._session.exec(statement)
+        models = result.all()
+
+        for model in models:
+            tombstone = EntityTombstoneModel(
+                entity_type="assessment_attempt",
+                entity_id=model.id,
+                payload={
+                    "id": model.id,
+                    "enrollment_id": model.enrollment_id,
+                    "module_id": model.module_id,
+                    "score": model.score,
+                    "passed": model.passed,
+                    "attempt_number": model.attempt_number,
+                    "answers": model.answers,
+                    "correct_question_ids": model.correct_question_ids,
+                    "taken_at": model.taken_at.isoformat() if model.taken_at else None,
+                    "created_at": model.created_at.isoformat()
+                    if model.created_at
+                    else None,
+                    "created_by": model.created_by,
+                },
+                deleted_at=datetime.now(UTC),
+                deleted_by=deleted_by,
+            )
+            self._session.add(tombstone)
+            await self._session.delete(model)
+
+        await self._session.flush()
+        return len(models)
 
     @staticmethod
     def _to_entity(model: AttemptModel) -> AttemptEntity:
