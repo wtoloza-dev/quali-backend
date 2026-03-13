@@ -27,6 +27,8 @@ class UserContractResult(BaseModel):
     email: str
     first_name: str
     last_name: str
+    document_type: str | None = None
+    document_number: str | None = None
     is_superadmin: bool = False
 
 

@@ -61,8 +61,12 @@ class CertificateVerifyResponseSchema(BaseModel):
         id: ULID of the certificate.
         company_id: Tenant that issued the certificate.
         recipient_id: User who received the certificate.
+        recipient_name: Full name of the recipient.
+        recipient_document_type: Document type (CC, CE, etc.), if available.
+        recipient_document_number: Document number, if available.
         title: Human-readable name of the certificate.
         description: Optional longer description.
+        token: Unique ULID token for QR code display.
         status: Computed lifecycle status (active/expired/revoked).
         issued_at: When the certificate was officially issued.
         expires_at: Optional expiration timestamp.
@@ -73,8 +77,12 @@ class CertificateVerifyResponseSchema(BaseModel):
     id: str
     company_id: str
     recipient_id: str
+    recipient_name: str
+    recipient_document_type: str | None = None
+    recipient_document_number: str | None = None
     title: str
     description: str | None
+    token: str
     status: CertificateStatus
     issued_at: datetime
     expires_at: datetime | None

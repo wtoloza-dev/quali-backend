@@ -1,5 +1,8 @@
 """Certificate entity-to-schema mapper."""
 
+from app.shared.contracts.get_user_by_id.get_user_by_id_port import (
+    UserContractResult,
+)
 from app.shared.schemas.pagination_schema import PaginatedResponse, PaginationParams
 
 from ...domain.entities import CertificateEntity
@@ -48,21 +51,32 @@ class CertificateMapper:
     @staticmethod
     def to_verify_response(
         entity: CertificateEntity,
+        recipient: UserContractResult | None = None,
     ) -> CertificateVerifyResponseSchema:
         """Map a CertificateEntity to the public verification response schema.
 
         Args:
             entity: The domain entity to convert.
+            recipient: Optional user data to enrich the response.
 
         Returns:
             CertificateVerifyResponseSchema: Public response for QR scan verification.
         """
+        if recipient:
+            name = f"{recipient.first_name} {recipient.last_name}".strip()
+        else:
+            name = ""
+
         return CertificateVerifyResponseSchema(
             id=entity.id,
             company_id=entity.company_id,
             recipient_id=entity.recipient_id,
+            recipient_name=name,
+            recipient_document_type=recipient.document_type if recipient else None,
+            recipient_document_number=recipient.document_number if recipient else None,
             title=entity.title,
             description=entity.description,
+            token=entity.token,
             status=entity.status,
             issued_at=entity.issued_at,
             expires_at=entity.expires_at,

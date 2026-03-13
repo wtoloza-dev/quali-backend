@@ -1,0 +1,909 @@
+[
+  {
+    "text": "Trabajas en la cocina de un restaurante. Al mediodía recibes un pedido de carne molida. Al tocarla notas que está tibia. El proveedor te dice: \"Tranquilo, la acabo de sacar del camión.\"\n\n---\n\n¿Qué debes hacer?",
+    "question_type": "multiple_choice_single",
+    "order": 1,
+    "module_order": 1,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Aceptarla y refrigerarla inmediatamente — con frío se arregla",
+          "is_correct": false
+        },
+        {
+          "text": "Rechazarla — si está tibia, la cadena de frío se rompió",
+          "is_correct": true
+        },
+        {
+          "text": "Aceptarla pero cocinarla de inmediato para matar cualquier bacteria",
+          "is_correct": false
+        },
+        {
+          "text": "Olerla y si no huele mal, aceptarla",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Por qué la carne molida es más peligrosa que un filete entero?",
+    "question_type": "multiple_choice_single",
+    "order": 2,
+    "module_order": 1,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Porque tiene más grasa y la grasa atrae más bacterias",
+          "is_correct": false
+        },
+        {
+          "text": "Porque al moler la carne, las bacterias de la superficie se mezclan por todo el interior",
+          "is_correct": true
+        },
+        {
+          "text": "Porque la carne molida siempre viene de animales más viejos",
+          "is_correct": false
+        },
+        {
+          "text": "No es más peligrosa, el riesgo es el mismo",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "En una intoxicación alimentaria, calentar la comida a alta temperatura elimina el peligro porque mata tanto la bacteria como la toxina.",
+    "question_type": "true_false",
+    "order": 3,
+    "module_order": 1,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Verdadero",
+          "is_correct": false
+        },
+        {
+          "text": "Falso",
+          "is_correct": true
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Cuál es el rango de la 'zona de peligro' donde las bacterias se multiplican más rápido?",
+    "question_type": "multiple_choice_single",
+    "order": 4,
+    "module_order": 1,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Entre 0°C y 25°C",
+          "is_correct": false
+        },
+        {
+          "text": "Entre 5°C y 60°C",
+          "is_correct": true
+        },
+        {
+          "text": "Entre 10°C y 45°C",
+          "is_correct": false
+        },
+        {
+          "text": "Entre -18°C y 30°C",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "El gel antibacterial es suficiente para eliminar el Norovirus de las manos.",
+    "question_type": "true_false",
+    "order": 5,
+    "module_order": 1,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Verdadero",
+          "is_correct": false
+        },
+        {
+          "text": "Falso",
+          "is_correct": true
+        }
+      ]
+    }
+  },
+  {
+    "text": "Un compañero de la cocina llegó con diarrea. Te dice: \"Ya me tomé una pastilla, estoy bien. Si me voy me descuentan el día.\"\n\n---\n\n¿Qué le dirías?",
+    "question_type": "multiple_choice_single",
+    "order": 6,
+    "module_order": 2,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Que use doble guante y tapabocas y siga trabajando",
+          "is_correct": false
+        },
+        {
+          "text": "Que no toque alimentos listos para consumo pero puede lavar platos",
+          "is_correct": false
+        },
+        {
+          "text": "Que debe reportar al supervisor y no manipular alimentos hasta recuperarse",
+          "is_correct": true
+        },
+        {
+          "text": "Que se lave bien las manos con gel antibacterial y continúe",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Cuánto tiempo mínimo debes frotar tus manos con jabón durante el lavado de manos?",
+    "question_type": "multiple_choice_single",
+    "order": 7,
+    "module_order": 2,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "5 segundos",
+          "is_correct": false
+        },
+        {
+          "text": "10 segundos",
+          "is_correct": false
+        },
+        {
+          "text": "20 segundos",
+          "is_correct": true
+        },
+        {
+          "text": "60 segundos",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Ordena los pasos del lavado de manos correctamente:",
+    "question_type": "sorting",
+    "order": 8,
+    "module_order": 2,
+    "randomize": true,
+    "config": {
+      "type": "sorting",
+      "items": [
+        "Mojar las manos con agua",
+        "Aplicar jabón",
+        "Frotar todas las superficies por 20 segundos",
+        "Enjuagar con agua corriente",
+        "Secar con toalla de papel",
+        "Cerrar la llave con la toalla"
+      ]
+    }
+  },
+  {
+    "text": "¿Cuál de estos elementos tiene PROHIBIDO portar un manipulador de alimentos durante su jornada?",
+    "question_type": "multiple_choice_single",
+    "order": 9,
+    "module_order": 2,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Gorro o malla para el cabello",
+          "is_correct": false
+        },
+        {
+          "text": "Zapatos cerrados antideslizantes",
+          "is_correct": false
+        },
+        {
+          "text": "Anillos, pulseras, reloj y aretes",
+          "is_correct": true
+        },
+        {
+          "text": "Uniforme de color claro",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Usar guantes de látex reemplaza la necesidad de lavarse las manos.",
+    "question_type": "true_false",
+    "order": 10,
+    "module_order": 2,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Verdadero",
+          "is_correct": false
+        },
+        {
+          "text": "Falso",
+          "is_correct": true
+        }
+      ]
+    }
+  },
+  {
+    "text": "Estás preparando el almuerzo. Cortaste pollo crudo en la tabla amarilla. Ahora necesitas picar tomate para la ensalada. Un compañero te dice: \"Usa la misma tabla, solo límpiala con un trapo húmedo.\"\n\n---\n\n¿Es correcto lo que dice tu compañero?",
+    "question_type": "multiple_choice_single",
+    "order": 11,
+    "module_order": 3,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Sí, limpiar con un trapo húmedo es suficiente",
+          "is_correct": false
+        },
+        {
+          "text": "No — debes usar otra tabla o lavar y desinfectar la misma antes de usarla",
+          "is_correct": true
+        },
+        {
+          "text": "Sí, si el trapo tiene desinfectante",
+          "is_correct": false
+        },
+        {
+          "text": "No importa porque el tomate se va a lavar después",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Relaciona cada alimento con su temperatura mínima de cocción interna:",
+    "question_type": "matching",
+    "order": 12,
+    "module_order": 3,
+    "randomize": true,
+    "config": {
+      "type": "matching",
+      "pairs": [
+        {
+          "left": "Pollo y aves",
+          "right": "74°C"
+        },
+        {
+          "left": "Carne molida",
+          "right": "70°C"
+        },
+        {
+          "left": "Pescado",
+          "right": "63°C"
+        },
+        {
+          "left": "Cerdo (chuleta, lomo)",
+          "right": "72°C"
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Cuál es la forma correcta de organizar los alimentos en la nevera?",
+    "question_type": "multiple_choice_single",
+    "order": 13,
+    "module_order": 3,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Crudo arriba, cocido abajo — el crudo necesita más frío",
+          "is_correct": false
+        },
+        {
+          "text": "Todo junto si está en recipientes cerrados",
+          "is_correct": false
+        },
+        {
+          "text": "Cocido arriba, crudo abajo — siempre en recipientes cerrados",
+          "is_correct": true
+        },
+        {
+          "text": "No importa el orden si la nevera está a la temperatura correcta",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Qué significa la regla PEPS y cómo se aplica?",
+    "question_type": "multiple_choice_single",
+    "order": 14,
+    "module_order": 3,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Primero en Entrar, Primero en Salir — los productos más antiguos se usan primero",
+          "is_correct": true
+        },
+        {
+          "text": "Primero el Empaque, Primero el Sello — verificar empaques antes de almacenar",
+          "is_correct": false
+        },
+        {
+          "text": "Primero en Entrar, Primero en Stock — llenar el inventario antes de vender",
+          "is_correct": false
+        },
+        {
+          "text": "Primero en Enfriar, Primero en Servir — lo más frío se sirve primero",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Si un alimento se descongeló completamente, puedes volver a congelarlo sin problema siempre que no huela mal.",
+    "question_type": "true_false",
+    "order": 15,
+    "module_order": 3,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Verdadero",
+          "is_correct": false
+        },
+        {
+          "text": "Falso",
+          "is_correct": true
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Cuál es la diferencia entre limpiar y desinfectar?",
+    "question_type": "multiple_choice_single",
+    "order": 16,
+    "module_order": 4,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Son lo mismo — ambos eliminan bacterias",
+          "is_correct": false
+        },
+        {
+          "text": "Limpiar quita la suciedad visible; desinfectar elimina los microorganismos. Se necesitan ambos",
+          "is_correct": true
+        },
+        {
+          "text": "Desinfectar primero y limpiar después",
+          "is_correct": false
+        },
+        {
+          "text": "Solo necesitas desinfectar si la superficie se ve sucia",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Ordena los 4 pasos de limpieza y desinfección de superficies:",
+    "question_type": "sorting",
+    "order": 17,
+    "module_order": 4,
+    "randomize": true,
+    "config": {
+      "type": "sorting",
+      "items": [
+        "Remover restos de comida",
+        "Lavar con detergente/jabón",
+        "Enjuagar con agua limpia",
+        "Desinfectar con hipoclorito"
+      ]
+    }
+  },
+  {
+    "text": "Clasifica cada uso con la concentración correcta de hipoclorito:",
+    "question_type": "classification",
+    "order": 18,
+    "module_order": 4,
+    "randomize": true,
+    "config": {
+      "type": "classification",
+      "categories": [
+        {
+          "label": "100 ppm"
+        },
+        {
+          "label": "200 ppm"
+        }
+      ],
+      "items": [
+        {
+          "text": "Desinfectar frutas y verduras",
+          "correct_category": 0
+        },
+        {
+          "text": "Desinfectar mesones y tablas de cortar",
+          "correct_category": 1
+        },
+        {
+          "text": "Desinfectar utensilios de cocina",
+          "correct_category": 1
+        },
+        {
+          "text": "Desinfectar lechugas para ensalada",
+          "correct_category": 0
+        }
+      ]
+    }
+  },
+  {
+    "text": "Al abrir la bodega por la mañana, encuentras pequeños excrementos oscuros cerca de los sacos de harina. Tu jefe dice: \"Limpia eso rápido y ya, no es nada.\"\n\n---\n\n¿Qué debería hacerse realmente?",
+    "question_type": "multiple_choice_single",
+    "order": 19,
+    "module_order": 4,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Limpiar y seguir trabajando — solo es un ratón",
+          "is_correct": false
+        },
+        {
+          "text": "Comprar veneno para ratones y ponerlo junto a la harina",
+          "is_correct": false
+        },
+        {
+          "text": "Aislar los productos afectados, desinfectar el área y llamar a control de plagas",
+          "is_correct": true
+        },
+        {
+          "text": "Mover la harina a otro lugar y esperar la fumigación del mes",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Cuál es la forma correcta de manejar las basuras en la cocina?",
+    "question_type": "multiple_choice_single",
+    "order": 20,
+    "module_order": 4,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Sacar la basura solo al final del día para no perder tiempo",
+          "is_correct": false
+        },
+        {
+          "text": "Usar canecas sin tapa para que sea más fácil depositar los residuos",
+          "is_correct": false
+        },
+        {
+          "text": "Canecas con tapa de pedal, separación por tipo y sacar la basura frecuentemente",
+          "is_correct": true
+        },
+        {
+          "text": "Acumular todo en una sola caneca grande para ahorrar bolsas",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Ordena la rutina diaria correcta de un manipulador al llegar al trabajo:",
+    "question_type": "sorting",
+    "order": 21,
+    "module_order": 5,
+    "randomize": true,
+    "config": {
+      "type": "sorting",
+      "items": [
+        "Ponerse el uniforme limpio y la malla",
+        "Quitarse joyas y accesorios",
+        "Lavarse las manos",
+        "Inspeccionar nevera y área de trabajo",
+        "Preparar solución desinfectante fresca"
+      ]
+    }
+  },
+  {
+    "text": "Clasifica cada hallazgo según el área que revisa el inspector del INVIMA:",
+    "question_type": "classification",
+    "order": 22,
+    "module_order": 5,
+    "randomize": true,
+    "config": {
+      "type": "classification",
+      "categories": [
+        {
+          "label": "Personal manipulador"
+        },
+        {
+          "label": "Condiciones de saneamiento"
+        },
+        {
+          "label": "Operación y proceso"
+        }
+      ],
+      "items": [
+        {
+          "text": "Certificado médico vigente",
+          "correct_category": 0
+        },
+        {
+          "text": "Plan de limpieza documentado",
+          "correct_category": 1
+        },
+        {
+          "text": "Nevera a temperatura correcta",
+          "correct_category": 2
+        },
+        {
+          "text": "Uniforme limpio y malla puesta",
+          "correct_category": 0
+        },
+        {
+          "text": "Contrato de control de plagas",
+          "correct_category": 1
+        },
+        {
+          "text": "Separación de crudo y cocido",
+          "correct_category": 2
+        }
+      ]
+    }
+  },
+  {
+    "text": "¿Cuál de estos es un DERECHO que te da la Resolución 2674 como manipulador de alimentos?",
+    "question_type": "multiple_choice_single",
+    "order": 23,
+    "module_order": 5,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "El derecho a no usar uniforme si hace mucho calor",
+          "is_correct": false
+        },
+        {
+          "text": "El derecho a que tu empleador te capacite y te dé las condiciones adecuadas de trabajo (jabón, uniforme, lavamanos)",
+          "is_correct": true
+        },
+        {
+          "text": "El derecho a manipular alimentos estando enfermo si usas guantes",
+          "is_correct": false
+        },
+        {
+          "text": "El derecho a no ser inspeccionado si tienes certificado médico",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Hubo un corte de luz de 6 horas en tu restaurante. Al volver la energía, el termómetro de la nevera marca 18°C. Adentro hay carne cruda, pollo, queso y salsas preparadas. Tu jefe dice: \"Prende la nevera y en un rato baja la temperatura.\"\n\n---\n\n¿Qué debería hacerse?",
+    "question_type": "multiple_choice_single",
+    "order": 24,
+    "module_order": 5,
+    "randomize": true,
+    "config": {
+      "type": "multiple_choice",
+      "options": [
+        {
+          "text": "Refrigerar todo de nuevo — al bajar la temperatura se arregla",
+          "is_correct": false
+        },
+        {
+          "text": "Oler cada producto y descartar solo lo que huela mal",
+          "is_correct": false
+        },
+        {
+          "text": "Descartar todos los alimentos perecederos — estuvieron en zona de peligro por horas",
+          "is_correct": true
+        },
+        {
+          "text": "Cocinar todo inmediatamente para matar las bacterias",
+          "is_correct": false
+        }
+      ]
+    }
+  },
+  {
+    "text": "Relaciona cada dato con su valor correcto:",
+    "question_type": "matching",
+    "order": 25,
+    "module_order": 5,
+    "randomize": true,
+    "config": {
+      "type": "matching",
+      "pairs": [
+        {
+          "left": "Zona de peligro",
+          "right": "5°C a 60°C"
+        },
+        {
+          "left": "Temperatura del pollo cocido",
+          "right": "74°C"
+        },
+        {
+          "left": "Temperatura de la nevera",
+          "right": "0°C a 5°C"
+        },
+        {
+          "left": "Hipoclorito para superficies",
+          "right": "200 ppm"
+        },
+        {
+          "left": "Tiempo de lavado de manos",
+          "right": "20 segundos"
+        }
+      ]
+    }
+  },
+  {
+    "text": "Encuentra las 8 palabras clave del curso en la sopa de letras:",
+    "question_type": "word_search",
+    "order": 26,
+    "module_order": 5,
+    "randomize": true,
+    "config": {
+      "type": "word_search",
+      "words": [
+        "BACTERIAS",
+        "CRUZADA",
+        "TOXINA",
+        "PLAGAS",
+        "HIGIENE",
+        "NEVERA",
+        "MANOS",
+        "PEPS"
+      ],
+      "grid_size": 12,
+      "grid": [
+        [
+          "V",
+          "B",
+          "A",
+          "C",
+          "T",
+          "E",
+          "R",
+          "I",
+          "A",
+          "S",
+          "D",
+          "A"
+        ],
+        [
+          "I",
+          "H",
+          "H",
+          "E",
+          "D",
+          "X",
+          "S",
+          "C",
+          "T",
+          "N",
+          "N",
+          "H"
+        ],
+        [
+          "B",
+          "A",
+          "C",
+          "G",
+          "H",
+          "R",
+          "U",
+          "A",
+          "S",
+          "G",
+          "E",
+          "I"
+        ],
+        [
+          "Z",
+          "V",
+          "Z",
+          "S",
+          "N",
+          "H",
+          "O",
+          "T",
+          "I",
+          "A",
+          "V",
+          "G"
+        ],
+        [
+          "C",
+          "R",
+          "U",
+          "Z",
+          "A",
+          "D",
+          "A",
+          "F",
+          "Z",
+          "N",
+          "E",
+          "I"
+        ],
+        [
+          "K",
+          "I",
+          "E",
+          "G",
+          "K",
+          "D",
+          "C",
+          "M",
+          "D",
+          "L",
+          "R",
+          "E"
+        ],
+        [
+          "L",
+          "U",
+          "I",
+          "T",
+          "O",
+          "X",
+          "I",
+          "N",
+          "A",
+          "B",
+          "A",
+          "N"
+        ],
+        [
+          "O",
+          "M",
+          "S",
+          "D",
+          "M",
+          "C",
+          "S",
+          "J",
+          "V",
+          "P",
+          "U",
+          "E"
+        ],
+        [
+          "L",
+          "A",
+          "T",
+          "P",
+          "L",
+          "A",
+          "G",
+          "A",
+          "S",
+          "E",
+          "G",
+          "Z"
+        ],
+        [
+          "C",
+          "N",
+          "B",
+          "X",
+          "H",
+          "J",
+          "C",
+          "H",
+          "D",
+          "P",
+          "M",
+          "I"
+        ],
+        [
+          "O",
+          "O",
+          "V",
+          "L",
+          "F",
+          "L",
+          "L",
+          "G",
+          "X",
+          "S",
+          "I",
+          "Z"
+        ],
+        [
+          "X",
+          "S",
+          "V",
+          "C",
+          "U",
+          "V",
+          "F",
+          "S",
+          "H",
+          "F",
+          "O",
+          "M"
+        ]
+      ],
+      "word_positions": [
+        {
+          "word": "BACTERIAS",
+          "row": 0,
+          "col": 1,
+          "direction": "horizontal"
+        },
+        {
+          "word": "CRUZADA",
+          "row": 4,
+          "col": 0,
+          "direction": "horizontal"
+        },
+        {
+          "word": "TOXINA",
+          "row": 6,
+          "col": 3,
+          "direction": "horizontal"
+        },
+        {
+          "word": "PLAGAS",
+          "row": 8,
+          "col": 3,
+          "direction": "horizontal"
+        },
+        {
+          "word": "HIGIENE",
+          "row": 1,
+          "col": 11,
+          "direction": "vertical"
+        },
+        {
+          "word": "NEVERA",
+          "row": 1,
+          "col": 10,
+          "direction": "vertical"
+        },
+        {
+          "word": "MANOS",
+          "row": 7,
+          "col": 1,
+          "direction": "vertical"
+        },
+        {
+          "word": "PEPS",
+          "row": 7,
+          "col": 9,
+          "direction": "vertical"
+        }
+      ]
+    }
+  }
+]
