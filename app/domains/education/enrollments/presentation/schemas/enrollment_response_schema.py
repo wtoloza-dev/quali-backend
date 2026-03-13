@@ -41,3 +41,6 @@ class EnrollmentResponseSchema(BaseModel):
     created_by: str
     updated_at: datetime | None
     updated_by: str | None
+    user_email: str | None = None
+    user_first_name: str | None = None
+    user_last_name: str | None = None
