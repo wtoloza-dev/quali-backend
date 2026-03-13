@@ -31,6 +31,7 @@ class CourseMapper:
         return CoursePublicResponseSchema(
             id=entity.id,
             title=entity.title,
+            slug=entity.slug,
             description=entity.description,
             vertical=entity.vertical,
             regulatory_ref=entity.regulatory_ref,
@@ -53,6 +54,7 @@ class CourseMapper:
             id=entity.id,
             company_id=entity.company_id,
             title=entity.title,
+            slug=entity.slug,
             description=entity.description,
             vertical=entity.vertical,
             regulatory_ref=entity.regulatory_ref,

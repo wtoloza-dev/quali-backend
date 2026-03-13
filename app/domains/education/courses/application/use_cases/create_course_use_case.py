@@ -1,11 +1,28 @@
 """Create course use case."""
 
+import re
+import unicodedata
 from datetime import UTC, datetime
 
 from ulid import ULID
 
 from ...domain.entities import CourseData, CourseEntity
 from ...domain.ports import CourseRepositoryPort
+
+
+def _slugify(text: str) -> str:
+    """Convert a text string into a URL-friendly slug.
+
+    Args:
+        text: The string to slugify.
+
+    Returns:
+        A lowercase, hyphen-separated, ASCII-only slug.
+    """
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    text = text.lower().strip()
+    text = re.sub(r"[^\w\s-]", "", text)
+    return re.sub(r"[-\s]+", "-", text).strip("-")
 
 
 class CreateCourseUseCase:
@@ -34,10 +51,12 @@ class CreateCourseUseCase:
             CourseEntity: The persisted course entity.
         """
         now = datetime.now(UTC)
+        slug = data.slug if data.slug else _slugify(data.title)
         entity = CourseEntity(
             id=str(ULID()),
             company_id=data.company_id,
             title=data.title,
+            slug=slug,
             description=data.description,
             vertical=data.vertical,
             regulatory_ref=data.regulatory_ref,

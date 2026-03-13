@@ -4,6 +4,9 @@ from .build_access_code_repository_dependency import AccessCodeRepositoryDepende
 from .build_generate_access_codes_use_case_dependency import (
     GenerateAccessCodesUseCaseDependency,
 )
+from .build_list_company_access_codes_use_case_dependency import (
+    ListCompanyAccessCodesUseCaseDependency,
+)
 from .build_redeem_access_code_use_case_dependency import (
     RedeemAccessCodeUseCaseDependency,
 )
@@ -12,5 +15,6 @@ from .build_redeem_access_code_use_case_dependency import (
 __all__ = [
     "AccessCodeRepositoryDependency",
     "GenerateAccessCodesUseCaseDependency",
+    "ListCompanyAccessCodesUseCaseDependency",
     "RedeemAccessCodeUseCaseDependency",
 ]

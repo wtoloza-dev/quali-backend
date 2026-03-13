@@ -27,6 +27,7 @@ class CourseModel(AuditModel, table=True):
 
     company_id: str = Field(nullable=False, index=True)
     title: str = Field(nullable=False)
+    slug: str = Field(nullable=False, index=True, unique=True)
     description: str | None = Field(default=None, nullable=True)
     vertical: CourseVertical = Field(sa_type=sa.String(), nullable=False)
     regulatory_ref: str | None = Field(default=None, nullable=True)

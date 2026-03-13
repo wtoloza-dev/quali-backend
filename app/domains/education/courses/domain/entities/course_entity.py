@@ -23,6 +23,7 @@ class CourseData(BaseModel):
 
     company_id: str
     title: str
+    slug: str = ""
     description: str | None = None
     vertical: CourseVertical
     regulatory_ref: str | None = None

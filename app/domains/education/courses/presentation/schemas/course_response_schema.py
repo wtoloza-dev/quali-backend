@@ -29,6 +29,7 @@ class CourseResponseSchema(BaseModel):
     id: str
     company_id: str
     title: str
+    slug: str
     description: str | None
     vertical: CourseVertical
     regulatory_ref: str | None

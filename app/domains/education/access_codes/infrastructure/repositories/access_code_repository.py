@@ -1,6 +1,6 @@
 """Access code repository."""
 
-from sqlmodel import select
+from sqlmodel import func, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from ...domain.entities import AccessCodeEntity
@@ -98,6 +98,44 @@ class AccessCodeRepository:
         await self._session.flush()
         await self._session.refresh(model)
         return self._to_entity(model)
+
+    async def list_by_company(
+        self,
+        company_id: str,
+        page: int,
+        page_size: int,
+    ) -> tuple[list[AccessCodeEntity], int]:
+        """Return paginated access codes for all courses in a company.
+
+        Args:
+            company_id: ULID of the company.
+            page: 1-based page number.
+            page_size: Number of items per page.
+
+        Returns:
+            Tuple of (list of AccessCodeEntity, total count).
+        """
+        from app.domains.education.courses.infrastructure.models.course_model import (
+            CourseModel,
+        )
+
+        count_stmt = (
+            select(func.count())
+            .select_from(AccessCodeModel)
+            .join(CourseModel, AccessCodeModel.course_id == CourseModel.id)
+            .where(CourseModel.company_id == company_id)
+        )
+        total = (await self._session.exec(count_stmt)).one()
+
+        stmt = (
+            select(AccessCodeModel)
+            .join(CourseModel, AccessCodeModel.course_id == CourseModel.id)
+            .where(CourseModel.company_id == company_id)
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+        )
+        models = (await self._session.exec(stmt)).all()
+        return [self._to_entity(m) for m in models], total
 
     @staticmethod
     def _to_entity(model: AccessCodeModel) -> AccessCodeEntity:

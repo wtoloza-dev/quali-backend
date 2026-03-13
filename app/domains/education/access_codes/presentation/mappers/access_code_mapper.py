@@ -1,5 +1,7 @@
 """Access code entity-to-schema mapper."""
 
+from app.shared.schemas.pagination_schema import PaginatedResponse, PaginationParams
+
 from ...domain.entities import AccessCodeEntity
 from ..schemas.access_code_response_schema import AccessCodeResponseSchema
 
@@ -29,4 +31,28 @@ class AccessCodeMapper:
             created_by=entity.created_by,
             updated_at=entity.updated_at,
             updated_by=entity.updated_by,
+        )
+
+    @staticmethod
+    def to_paginated_response(
+        items: list[AccessCodeEntity],
+        total: int,
+        params: PaginationParams,
+    ) -> PaginatedResponse[AccessCodeResponseSchema]:
+        """Map a list of access code entities to a paginated response.
+
+        Args:
+            items: The access code entities for the current page.
+            total: Total number of records across all pages.
+            params: Pagination parameters used to compute page metadata.
+
+        Returns:
+            Paginated envelope with access code schemas.
+        """
+        return PaginatedResponse(
+            items=[AccessCodeMapper.to_response(e) for e in items],
+            total=total,
+            page=params.page,
+            page_size=params.page_size,
+            pages=params.pages(total),
         )

@@ -57,3 +57,21 @@ class AccessCodeRepositoryPort(Protocol):
             AccessCodeEntity: The updated entity after persistence.
         """
         ...
+
+    async def list_by_company(
+        self,
+        company_id: str,
+        page: int,
+        page_size: int,
+    ) -> tuple[list[AccessCodeEntity], int]:
+        """Return paginated access codes for all courses in a company.
+
+        Args:
+            company_id: The ULID of the company.
+            page: 1-based page number.
+            page_size: Number of items per page.
+
+        Returns:
+            Tuple of (list of AccessCodeEntity, total count).
+        """
+        ...
