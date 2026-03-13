@@ -1,6 +1,6 @@
 """Create user request schema."""
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
 
 class CreateUserRequestSchema(BaseModel):
@@ -13,3 +13,9 @@ class CreateUserRequestSchema(BaseModel):
 
     first_name: str = ""
     last_name: str = ""
+
+    @field_validator("first_name", "last_name")
+    @classmethod
+    def normalize_name(cls, value: str) -> str:
+        """Normalize name fields to title case."""
+        return value.strip().title() if value else value
