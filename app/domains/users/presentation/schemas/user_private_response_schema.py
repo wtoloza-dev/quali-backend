@@ -27,6 +27,7 @@ class UserPrivateResponseSchema(BaseModel):
     email: str
     document_type: str | None
     document_number: str | None
+    is_superadmin: bool
     created_at: datetime
     created_by: str
     updated_at: datetime | None

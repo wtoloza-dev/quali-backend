@@ -147,7 +147,6 @@ def create_app() -> FastAPI:
         version="0.1.0",
         debug=bool(settings.DEBUG),
         lifespan=lifespan,
-        redirect_slashes=False,
     )
     register_routes(app)
     register_middlewares(app)

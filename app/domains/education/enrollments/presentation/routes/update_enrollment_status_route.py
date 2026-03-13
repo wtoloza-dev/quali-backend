@@ -21,7 +21,6 @@ router = APIRouter()
     summary="Update the status of an enrollment",
 )
 async def handle_update_enrollment_status_route(
-    company_id: str,
     enrollment_id: str,
     body: UpdateEnrollmentStatusRequestSchema,
     use_case: UpdateEnrollmentStatusUseCaseDependency,
@@ -30,7 +29,6 @@ async def handle_update_enrollment_status_route(
     """Handle PATCH requests to advance an enrollment's lifecycle status.
 
     Args:
-        company_id: ULID of the owning company (from URL path).
         enrollment_id: ULID of the enrollment to update.
         body: New status value.
         use_case: Injected UpdateEnrollmentStatusUseCase.
@@ -41,7 +39,6 @@ async def handle_update_enrollment_status_route(
     """
     entity = await use_case.execute(
         enrollment_id=enrollment_id,
-        company_id=company_id,
         status=body.status,
         updated_by=auth.user_id,
     )

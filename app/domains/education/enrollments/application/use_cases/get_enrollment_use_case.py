@@ -20,21 +20,19 @@ class GetEnrollmentUseCase:
         """
         self._repository = repository
 
-    async def execute(self, enrollment_id: str, company_id: str) -> EnrollmentEntity:
-        """Retrieve an enrollment scoped to a company.
+    async def execute(self, enrollment_id: str) -> EnrollmentEntity:
+        """Retrieve an enrollment by ID.
 
         Args:
             enrollment_id: ULID of the enrollment to retrieve.
-            company_id: ULID of the owning company for tenant scoping.
 
         Returns:
             EnrollmentEntity: The matching enrollment.
 
         Raises:
-            EnrollmentNotFoundException: If no enrollment with that ID
-                exists within the given company.
+            EnrollmentNotFoundException: If no enrollment with that ID exists.
         """
-        entity = await self._repository.get_by_id_and_company(enrollment_id, company_id)
+        entity = await self._repository.get_by_id(enrollment_id)
         if entity is None:
             raise EnrollmentNotFoundException(enrollment_id)
         return entity

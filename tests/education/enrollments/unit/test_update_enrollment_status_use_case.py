@@ -8,7 +8,10 @@ from app.domains.education.enrollments.application.use_cases import (
     UpdateEnrollmentStatusUseCase,
 )
 from app.domains.education.enrollments.domain.entities import EnrollmentEntity
-from app.domains.education.enrollments.domain.enums import EnrollmentStatus
+from app.domains.education.enrollments.domain.enums import (
+    AccessType,
+    EnrollmentStatus,
+)
 from app.domains.education.enrollments.domain.exceptions import (
     EnrollmentNotFoundException,
     InvalidStatusTransitionException,
@@ -25,11 +28,13 @@ def _make_enrollment(**kwargs) -> EnrollmentEntity:
         id=kwargs.get("id", ENROLLMENT_ID),
         user_id="01ARZ3NDEKTSV4RRFFQ69G5FAU",
         course_id="01ARZ3NDEKTSV4RRFFQ69G5FAR",
-        company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
         is_mandatory=False,
         status=kwargs.get("status", EnrollmentStatus.NOT_STARTED),
+        access_type=AccessType.PREVIEW,
         enrolled_at=now,
         completed_at=kwargs.get("completed_at"),
+        start_date=None,
+        end_date=None,
         created_at=now,
         created_by="01ARZ3NDEKTSV4RRFFQ69G5FAA",
         updated_at=now,
@@ -46,13 +51,6 @@ class FakeEnrollmentRepository:
     async def get_by_id(self, enrollment_id: str) -> EnrollmentEntity | None:
         return self._store.get(enrollment_id)
 
-    async def get_by_id_and_company(self, enrollment_id: str, company_id: str):
-        entity = self._store.get(enrollment_id)
-        if entity is None or entity.company_id != company_id:
-            return None
-        return entity
-
-
     async def update(self, entity: EnrollmentEntity) -> EnrollmentEntity:
         self._store[entity.id] = entity
         return entity
@@ -64,10 +62,13 @@ class FakeEnrollmentRepository:
     async def get_active_enrollment(self, user_id, course_id):
         return None
 
+    async def get_by_user_and_course(self, user_id, course_id):
+        return None
+
     async def delete(self, enrollment_id, deleted_by):
         self._store.pop(enrollment_id, None)
 
-    async def list_by_company(self, company_id, page, page_size):
+    async def list_by_user(self, user_id, page, page_size):
         return [], 0
 
 
@@ -79,7 +80,6 @@ class TestUpdateEnrollmentStatusUseCase:
 
         result = await use_case.execute(
             enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
             status=EnrollmentStatus.IN_PROGRESS,
             updated_by=UPDATED_BY,
         )
@@ -94,7 +94,6 @@ class TestUpdateEnrollmentStatusUseCase:
 
         result = await use_case.execute(
             enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
             status=EnrollmentStatus.COMPLETED,
             updated_by=UPDATED_BY,
         )
@@ -108,7 +107,6 @@ class TestUpdateEnrollmentStatusUseCase:
 
         result = await use_case.execute(
             enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
             status=EnrollmentStatus.FAILED,
             updated_by=UPDATED_BY,
         )
@@ -127,7 +125,6 @@ class TestUpdateEnrollmentStatusUseCase:
 
         result = await use_case.execute(
             enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
             status=EnrollmentStatus.COMPLETED,
             updated_by=UPDATED_BY,
         )
@@ -141,7 +138,6 @@ class TestUpdateEnrollmentStatusUseCase:
 
         result = await use_case.execute(
             enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
             status=EnrollmentStatus.IN_PROGRESS,
             updated_by=UPDATED_BY,
         )
@@ -155,7 +151,6 @@ class TestUpdateEnrollmentStatusUseCase:
         with pytest.raises(EnrollmentNotFoundException):
             await use_case.execute(
                 enrollment_id="nonexistent",
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
                 status=EnrollmentStatus.COMPLETED,
                 updated_by=UPDATED_BY,
             )
@@ -168,7 +163,6 @@ class TestUpdateEnrollmentStatusUseCase:
         with pytest.raises(InvalidStatusTransitionException):
             await use_case.execute(
                 enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
                 status=EnrollmentStatus.COMPLETED,
                 updated_by=UPDATED_BY,
             )
@@ -181,7 +175,6 @@ class TestUpdateEnrollmentStatusUseCase:
         with pytest.raises(InvalidStatusTransitionException):
             await use_case.execute(
                 enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
                 status=EnrollmentStatus.IN_PROGRESS,
                 updated_by=UPDATED_BY,
             )
@@ -193,7 +186,6 @@ class TestUpdateEnrollmentStatusUseCase:
 
         result = await use_case.execute(
             enrollment_id=ENROLLMENT_ID,
-            company_id="01ARZ3NDEKTSV4RRFFQ69G5FAC",
             status=EnrollmentStatus.NOT_STARTED,
             updated_by=UPDATED_BY,
         )

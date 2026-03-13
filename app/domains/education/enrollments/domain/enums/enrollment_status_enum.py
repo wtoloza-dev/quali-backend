@@ -9,7 +9,7 @@ from enum import StrEnum
 _TRANSITIONS: dict[str, set[str]] = {
     "not_started": {"in_progress"},
     "in_progress": {"completed", "failed"},
-    "completed": set(),
+    "completed": {"not_started"},
     "failed": {"not_started"},
 }
 

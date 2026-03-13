@@ -59,29 +59,6 @@ class EnrollmentRepository:
         model = result.first()
         return self._to_entity(model) if model else None
 
-    async def get_by_id_and_company(
-        self, enrollment_id: str, company_id: str
-    ) -> EnrollmentEntity | None:
-        """Retrieve an enrollment scoped to a specific company.
-
-        Returns None if the enrollment does not exist or belongs to a
-        different company, preventing cross-tenant data access.
-
-        Args:
-            enrollment_id: The ULID of the enrollment.
-            company_id: The ULID of the owning company.
-
-        Returns:
-            EnrollmentEntity if found within the company, None otherwise.
-        """
-        statement = select(EnrollmentModel).where(
-            EnrollmentModel.id == enrollment_id,
-            EnrollmentModel.company_id == company_id,
-        )
-        result = await self._session.exec(statement)
-        model = result.first()
-        return self._to_entity(model) if model else None
-
     async def get_by_user_and_course(
         self, user_id: str, course_id: str
     ) -> EnrollmentEntity | None:
@@ -126,7 +103,7 @@ class EnrollmentRepository:
         return self._to_entity(model) if model else None
 
     async def update(self, entity: EnrollmentEntity) -> EnrollmentEntity:
-        """Persist status and completion changes to an existing enrollment.
+        """Persist changes to an existing enrollment.
 
         Args:
             entity: The enrollment entity with updated fields.
@@ -141,7 +118,10 @@ class EnrollmentRepository:
             return entity
 
         model.status = entity.status
+        model.access_type = entity.access_type
         model.completed_at = entity.completed_at
+        model.start_date = entity.start_date
+        model.end_date = entity.end_date
         model.updated_by = entity.updated_by
 
         self._session.add(model)
@@ -169,15 +149,19 @@ class EnrollmentRepository:
                 "id": model.id,
                 "user_id": model.user_id,
                 "course_id": model.course_id,
-                "company_id": model.company_id,
                 "is_mandatory": model.is_mandatory,
                 "status": model.status,
+                "access_type": model.access_type,
                 "enrolled_at": model.enrolled_at.isoformat()
                 if model.enrolled_at
                 else None,
                 "completed_at": model.completed_at.isoformat()
                 if model.completed_at
                 else None,
+                "start_date": model.start_date.isoformat()
+                if model.start_date
+                else None,
+                "end_date": model.end_date.isoformat() if model.end_date else None,
                 "created_at": model.created_at.isoformat()
                 if model.created_at
                 else None,
@@ -190,17 +174,15 @@ class EnrollmentRepository:
         await self._session.delete(model)
         await self._session.flush()
 
-    async def list_by_company(
+    async def list_by_user(
         self,
-        company_id: str,
         user_id: str,
         page: int,
         page_size: int,
     ) -> tuple[list[EnrollmentEntity], int]:
-        """Return a paginated slice of enrollments for a user within a company.
+        """Return a paginated slice of enrollments for a user.
 
         Args:
-            company_id: ULID of the company to scope the listing.
             user_id: ULID of the user whose enrollments to return.
             page: 1-based page number.
             page_size: Number of items per page.
@@ -211,19 +193,13 @@ class EnrollmentRepository:
         count_stmt = (
             select(func.count())
             .select_from(EnrollmentModel)
-            .where(
-                EnrollmentModel.company_id == company_id,
-                EnrollmentModel.user_id == user_id,
-            )
+            .where(EnrollmentModel.user_id == user_id)
         )
         total = (await self._session.exec(count_stmt)).one()
 
         stmt = (
             select(EnrollmentModel)
-            .where(
-                EnrollmentModel.company_id == company_id,
-                EnrollmentModel.user_id == user_id,
-            )
+            .where(EnrollmentModel.user_id == user_id)
             .offset((page - 1) * page_size)
             .limit(page_size)
         )
@@ -244,11 +220,13 @@ class EnrollmentRepository:
             id=model.id,
             user_id=model.user_id,
             course_id=model.course_id,
-            company_id=model.company_id,
             is_mandatory=model.is_mandatory,
             status=model.status,
+            access_type=model.access_type,
             enrolled_at=model.enrolled_at,
             completed_at=model.completed_at,
+            start_date=model.start_date,
+            end_date=model.end_date,
             created_at=model.created_at,
             created_by=model.created_by,
             updated_at=model.updated_at,
@@ -269,11 +247,13 @@ class EnrollmentRepository:
             id=entity.id,
             user_id=entity.user_id,
             course_id=entity.course_id,
-            company_id=entity.company_id,
             is_mandatory=entity.is_mandatory,
             status=entity.status,
+            access_type=entity.access_type,
             enrolled_at=entity.enrolled_at,
             completed_at=entity.completed_at,
+            start_date=entity.start_date,
+            end_date=entity.end_date,
             created_at=entity.created_at,
             created_by=entity.created_by,
             updated_at=entity.updated_at,

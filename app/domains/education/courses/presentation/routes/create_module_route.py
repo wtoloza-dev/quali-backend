@@ -42,7 +42,13 @@ async def handle_create_module_route(
         ModuleResponseSchema: The newly created module.
     """
     module = await use_case.execute(
-        data=ModuleData(course_id=course_id, title=body.title, order=body.order),
+        data=ModuleData(
+            course_id=course_id,
+            title=body.title,
+            order=body.order,
+            passing_score=body.passing_score,
+            max_attempts=body.max_attempts,
+        ),
         company_id=company_id,
         created_by=auth.user_id,
     )

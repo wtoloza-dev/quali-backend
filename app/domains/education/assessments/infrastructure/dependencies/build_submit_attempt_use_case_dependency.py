@@ -5,7 +5,7 @@ from typing import Annotated
 from fastapi import Depends
 
 from app.domains.education.courses.infrastructure.dependencies import (
-    CourseRepositoryDependency,
+    ModuleRepositoryDependency,
 )
 from app.domains.education.enrollments.infrastructure.dependencies import (
     EnrollmentRepositoryDependency,
@@ -18,7 +18,7 @@ from .build_question_repository_dependency import QuestionRepositoryDependency
 
 def build_submit_attempt_use_case(
     enrollment_repository: EnrollmentRepositoryDependency,
-    course_repository: CourseRepositoryDependency,
+    module_repository: ModuleRepositoryDependency,
     question_repository: QuestionRepositoryDependency,
     attempt_repository: AttemptRepositoryDependency,
 ) -> SubmitAttemptUseCase:
@@ -26,7 +26,7 @@ def build_submit_attempt_use_case(
 
     Args:
         enrollment_repository: Enrollment repository injected by FastAPI.
-        course_repository: Course repository injected by FastAPI.
+        module_repository: Module repository injected by FastAPI.
         question_repository: Question repository injected by FastAPI.
         attempt_repository: Attempt repository injected by FastAPI.
 
@@ -35,7 +35,7 @@ def build_submit_attempt_use_case(
     """
     return SubmitAttemptUseCase(
         enrollment_repository=enrollment_repository,
-        course_repository=course_repository,
+        module_repository=module_repository,
         question_repository=question_repository,
         attempt_repository=attempt_repository,
     )

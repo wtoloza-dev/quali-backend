@@ -13,6 +13,7 @@ from app.shared.auth.auth_context import AuthContext
 from app.shared.auth.dependencies import CurrentUserDependency
 from app.shared.auth.role import ROLE_HIERARCHY, Role
 from app.shared.contracts.get_company_member import GetCompanyMemberDependency
+from app.shared.contracts.get_user_by_id import GetUserByIdDependency
 from app.shared.exceptions import InsufficientPermissionsException
 
 
@@ -46,13 +47,18 @@ def require_role(minimum_role: Role, company_id_path_param: str = "company_id"):
     async def guard(
         company_id: Annotated[str, Path(alias=company_id_path_param)],
         member_adapter: GetCompanyMemberDependency,
+        user_adapter: GetUserByIdDependency,
         auth: CurrentUserDependency,
     ) -> AuthContext:
         """Enforce the minimum role for the current request.
 
+        Superadmins bypass role checks entirely. Regular users must hold
+        the minimum role (or higher) in the target company.
+
         Args:
             company_id: Resolved from the request path.
             member_adapter: Injected company member contract adapter.
+            user_adapter: Injected user contract adapter for superadmin check.
             auth: Authenticated user context injected via CurrentUserDependency.
 
         Returns:
@@ -62,6 +68,11 @@ def require_role(minimum_role: Role, company_id_path_param: str = "company_id"):
             UnauthorizedException: If no JWT was provided.
             InsufficientPermissionsException: If the user's role is too low.
         """
+        # Superadmins bypass all company role checks.
+        user = await user_adapter(user_id=auth.user_id)
+        if user and user.is_superadmin:
+            return auth
+
         member = await member_adapter(company_id=company_id, user_id=auth.user_id)
         if member is None:
             raise InsufficientPermissionsException(

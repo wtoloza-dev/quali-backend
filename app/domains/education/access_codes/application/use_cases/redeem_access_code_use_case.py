@@ -2,9 +2,11 @@
 
 from datetime import UTC, datetime
 
-from app.domains.education.courses.application.use_cases import GrantCourseAccessUseCase
-from app.domains.education.courses.domain.entities import CourseAccessData
-from app.domains.education.courses.domain.enums import AccessType
+from ulid import ULID
+
+from app.domains.education.enrollments.domain.entities import EnrollmentEntity
+from app.domains.education.enrollments.domain.enums import AccessType
+from app.domains.education.enrollments.domain.ports import EnrollmentRepositoryPort
 
 from ...domain.entities import AccessCodeEntity
 from ...domain.exceptions import (
@@ -15,33 +17,36 @@ from ...domain.ports import AccessCodeRepositoryPort
 
 
 class RedeemAccessCodeUseCase:
-    """Validate and redeem an access code, granting course access.
+    """Validate and redeem an access code, granting full course access.
+
+    On redemption, upgrades the user's enrollment to FULL access. If the
+    user has no enrollment yet, creates one with FULL access.
 
     Args:
         repository: Port implementation provided by the infrastructure layer.
-        grant_access_use_case: Use case to grant course access upon redemption.
+        enrollment_repository: Enrollment port to look up and update enrollments.
     """
 
     def __init__(
         self,
         repository: AccessCodeRepositoryPort,
-        grant_access_use_case: GrantCourseAccessUseCase,
+        enrollment_repository: EnrollmentRepositoryPort,
     ) -> None:
-        """Initialise with the access code repository and grant access use case.
+        """Initialise with the access code and enrollment repositories.
 
         Args:
             repository: Concrete repository injected by the infrastructure layer.
-            grant_access_use_case: Use case to insert course access records.
+            enrollment_repository: Enrollment repository for access upgrades.
         """
         self._repository = repository
-        self._grant_access_use_case = grant_access_use_case
+        self._enrollment_repository = enrollment_repository
 
     async def execute(
         self,
         code: str,
         user_id: str,
     ) -> AccessCodeEntity:
-        """Redeem an access code and grant course access to the user.
+        """Redeem an access code and grant full course access to the user.
 
         Args:
             code: The access code string to redeem.
@@ -62,30 +67,48 @@ class RedeemAccessCodeUseCase:
             raise AccessCodeAlreadyRedeemedException(code=code)
 
         now = datetime.now(UTC)
+
+        # Upgrade or create enrollment with FULL access.
+        enrollment = await self._enrollment_repository.get_by_user_and_course(
+            user_id=user_id,
+            course_id=entity.course_id,
+        )
+        if enrollment is not None:
+            upgraded = enrollment.model_copy(
+                update={
+                    "access_type": AccessType.FULL,
+                    "start_date": now,
+                    "updated_by": user_id,
+                }
+            )
+            enrollment = await self._enrollment_repository.update(upgraded)
+        else:
+            enrollment = EnrollmentEntity(
+                id=str(ULID()),
+                user_id=user_id,
+                course_id=entity.course_id,
+                is_mandatory=False,
+                access_type=AccessType.FULL,
+                start_date=now,
+                enrolled_at=now,
+                created_at=now,
+                created_by=user_id,
+                updated_at=None,
+                updated_by=None,
+            )
+            enrollment = await self._enrollment_repository.save(enrollment)
+
         redeemed_entity = AccessCodeEntity(
             id=entity.id,
             code=entity.code,
             course_id=entity.course_id,
-            company_id=entity.company_id,
             is_redeemed=True,
             redeemed_by=user_id,
             redeemed_at=now,
+            enrollment_id=enrollment.id,
             created_at=entity.created_at,
             created_by=entity.created_by,
             updated_at=entity.updated_at,
             updated_by=user_id,
         )
-        updated = await self._repository.update(redeemed_entity)
-
-        access_data = CourseAccessData(
-            user_id=user_id,
-            course_id=entity.course_id,
-            access_type=AccessType.PURCHASE,
-            expires_at=None,
-        )
-        await self._grant_access_use_case.execute(
-            data=access_data,
-            created_by=user_id,
-        )
-
-        return updated
+        return await self._repository.update(redeemed_entity)

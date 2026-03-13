@@ -89,6 +89,8 @@ class ModuleRepository:
 
         model.title = entity.title
         model.order = entity.order
+        model.passing_score = entity.passing_score
+        model.max_attempts = entity.max_attempts
         model.updated_by = entity.updated_by
 
         self._session.add(model)
@@ -119,6 +121,8 @@ class ModuleRepository:
                 "course_id": model.course_id,
                 "title": model.title,
                 "order": model.order,
+                "passing_score": model.passing_score,
+                "max_attempts": model.max_attempts,
                 "created_at": model.created_at.isoformat()
                 if model.created_at
                 else None,
@@ -162,6 +166,8 @@ class ModuleRepository:
             course_id=model.course_id,
             title=model.title,
             order=model.order,
+            passing_score=model.passing_score,
+            max_attempts=model.max_attempts,
             created_at=model.created_at,
             created_by=model.created_by,
             updated_at=model.updated_at,
@@ -183,6 +189,8 @@ class ModuleRepository:
             course_id=entity.course_id,
             title=entity.title,
             order=entity.order,
+            passing_score=entity.passing_score,
+            max_attempts=entity.max_attempts,
             created_at=entity.created_at,
             created_by=entity.created_by,
             updated_at=entity.updated_at,

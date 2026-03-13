@@ -27,6 +27,7 @@ class UserContractResult(BaseModel):
     email: str
     first_name: str
     last_name: str
+    is_superadmin: bool = False
 
 
 class GetUserByIdPort(Protocol):

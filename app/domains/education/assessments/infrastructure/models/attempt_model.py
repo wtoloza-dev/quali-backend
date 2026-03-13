@@ -30,7 +30,9 @@ class AttemptModel(AuditModel, table=True):
     passed: bool = Field(nullable=False)
     attempt_number: int = Field(nullable=False)
     answers: list = Field(sa_type=sa.JSON, nullable=False, default_factory=list)
-    correct_question_ids: list = Field(sa_type=sa.JSON, nullable=False, default_factory=list)
+    correct_question_ids: list = Field(
+        sa_type=sa.JSON, nullable=False, default_factory=list
+    )
     taken_at: datetime = Field(
         nullable=False,
         sa_type=DateTime(timezone=True),

@@ -8,7 +8,7 @@ from sqlmodel import Field
 
 from app.shared.models.audit_model import AuditModel
 
-from ...domain.enums import EnrollmentStatus
+from ...domain.enums import AccessType, EnrollmentStatus
 
 
 class EnrollmentModel(AuditModel, table=True):
@@ -18,11 +18,13 @@ class EnrollmentModel(AuditModel, table=True):
         __tablename__: Database table name.
         user_id: ULID of the enrolled user.
         course_id: ULID of the course.
-        company_id: ULID of the company (tenant scope).
         is_mandatory: Whether the enrollment is mandatory.
         status: Current enrollment lifecycle state.
+        access_type: Content access level (preview or full).
         enrolled_at: Timestamp when the enrollment was created.
         completed_at: Timestamp when the enrollment was completed or failed.
+        start_date: When full access begins.
+        end_date: When full access expires.
     """
 
     __tablename__ = "enrollments"
@@ -32,10 +34,14 @@ class EnrollmentModel(AuditModel, table=True):
 
     user_id: str = Field(nullable=False, index=True)
     course_id: str = Field(nullable=False, index=True)
-    company_id: str = Field(nullable=False, index=True)
     is_mandatory: bool = Field(default=False, nullable=False)
     status: EnrollmentStatus = Field(
         default=EnrollmentStatus.NOT_STARTED,
+        sa_type=sa.String(),
+        nullable=False,
+    )
+    access_type: AccessType = Field(
+        default=AccessType.PREVIEW,
         sa_type=sa.String(),
         nullable=False,
     )
@@ -44,6 +50,16 @@ class EnrollmentModel(AuditModel, table=True):
         sa_type=DateTime(timezone=True),
     )
     completed_at: datetime | None = Field(
+        default=None,
+        nullable=True,
+        sa_type=DateTime(timezone=True),
+    )
+    start_date: datetime | None = Field(
+        default=None,
+        nullable=True,
+        sa_type=DateTime(timezone=True),
+    )
+    end_date: datetime | None = Field(
         default=None,
         nullable=True,
         sa_type=DateTime(timezone=True),

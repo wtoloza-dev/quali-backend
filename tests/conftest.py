@@ -101,7 +101,6 @@ _ALL_TABLES = [
     "assessment_attempts",
     "assessment_questions",
     "access_codes",
-    "course_access",
     "course_lessons",
     "course_modules",
     "enrollments",

@@ -26,3 +26,4 @@ class UserModel(AuditModel, table=True):
     email: str = Field(nullable=False, index=True, unique=True)
     document_type: str | None = Field(default=None, nullable=True)
     document_number: str | None = Field(default=None, nullable=True)
+    is_superadmin: bool = Field(default=False, nullable=False)

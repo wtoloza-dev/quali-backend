@@ -22,6 +22,8 @@ class ModuleMapper:
             course_id=entity.course_id,
             title=entity.title,
             order=entity.order,
+            passing_score=entity.passing_score,
+            max_attempts=entity.max_attempts,
             created_at=entity.created_at,
             created_by=entity.created_by,
             updated_at=entity.updated_at,

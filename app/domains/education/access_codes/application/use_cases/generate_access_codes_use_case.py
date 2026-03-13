@@ -11,7 +11,9 @@ from ...domain.ports import AccessCodeRepositoryPort
 
 
 # Alphanumeric characters excluding ambiguous ones (O/0/I/1)
-_ALPHABET = string.ascii_uppercase.replace("O", "").replace("I", "") + string.digits.replace("0", "").replace("1", "")
+_ALPHABET = string.ascii_uppercase.replace("O", "").replace(
+    "I", ""
+) + string.digits.replace("0", "").replace("1", "")
 
 
 class GenerateAccessCodesUseCase:
@@ -32,7 +34,6 @@ class GenerateAccessCodesUseCase:
     async def execute(
         self,
         course_id: str,
-        company_id: str,
         quantity: int,
         created_by: str,
     ) -> list[AccessCodeEntity]:
@@ -40,7 +41,6 @@ class GenerateAccessCodesUseCase:
 
         Args:
             course_id: ULID of the course these codes unlock.
-            company_id: ULID of the company (tenant scope).
             quantity: Number of codes to generate.
             created_by: ULID of the actor generating the codes.
 
@@ -55,16 +55,15 @@ class GenerateAccessCodesUseCase:
             data = AccessCodeData(
                 code=code,
                 course_id=course_id,
-                company_id=company_id,
             )
             entity = AccessCodeEntity(
                 id=str(ULID()),
                 code=data.code,
                 course_id=data.course_id,
-                company_id=data.company_id,
                 is_redeemed=False,
                 redeemed_by=None,
                 redeemed_at=None,
+                enrollment_id=None,
                 created_at=now,
                 created_by=created_by,
                 updated_at=None,

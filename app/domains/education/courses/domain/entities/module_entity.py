@@ -12,11 +12,15 @@ class ModuleData(BaseModel):
         course_id: The course this module belongs to.
         title: Human-readable title of the module.
         order: Position of this module within the course (1-based).
+        passing_score: Minimum score (0–100) required to pass this module's assessment.
+        max_attempts: Maximum assessment attempts for this module.
     """
 
     course_id: str
     title: str
     order: int
+    passing_score: int = 80
+    max_attempts: int = 3
 
 
 class ModuleEntity(ModuleData, AuditEntity):

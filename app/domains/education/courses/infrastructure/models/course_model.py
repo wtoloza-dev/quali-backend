@@ -19,9 +19,6 @@ class CourseModel(AuditModel, table=True):
         vertical: Regulatory vertical (sst, food_quality, general).
         regulatory_ref: Optional regulatory clause reference.
         validity_days: Certificate validity period in days. None = no expiry.
-        passing_score: Minimum score (0–100) required to pass.
-        max_attempts: Maximum assessment attempts before re-enrollment.
-        is_mandatory: Whether completion is required for enrolled employees.
         visibility: PUBLIC (all companies) or PRIVATE (owning company only).
         status: Lifecycle status (draft, published, archived).
     """
@@ -34,10 +31,9 @@ class CourseModel(AuditModel, table=True):
     vertical: CourseVertical = Field(sa_type=sa.String(), nullable=False)
     regulatory_ref: str | None = Field(default=None, nullable=True)
     validity_days: int | None = Field(default=None, nullable=True)
-    passing_score: int = Field(default=80, nullable=False)
-    max_attempts: int = Field(default=3, nullable=False)
-    is_mandatory: bool = Field(default=False, nullable=False)
     visibility: CourseVisibility = Field(
         default=CourseVisibility.PRIVATE, sa_type=sa.String(), nullable=False
     )
-    status: CourseStatus = Field(default=CourseStatus.DRAFT, sa_type=sa.String(), nullable=False)
+    status: CourseStatus = Field(
+        default=CourseStatus.DRAFT, sa_type=sa.String(), nullable=False
+    )

@@ -99,9 +99,6 @@ class CourseRepository:
         model.vertical = entity.vertical
         model.regulatory_ref = entity.regulatory_ref
         model.validity_days = entity.validity_days
-        model.passing_score = entity.passing_score
-        model.max_attempts = entity.max_attempts
-        model.is_mandatory = entity.is_mandatory
         model.visibility = entity.visibility
         model.status = entity.status
         model.updated_by = entity.updated_by
@@ -201,9 +198,6 @@ class CourseRepository:
             vertical=model.vertical,
             regulatory_ref=model.regulatory_ref,
             validity_days=model.validity_days,
-            passing_score=model.passing_score,
-            max_attempts=model.max_attempts,
-            is_mandatory=model.is_mandatory,
             visibility=model.visibility,
             status=model.status,
             created_at=model.created_at,
@@ -230,9 +224,6 @@ class CourseRepository:
             vertical=entity.vertical,
             regulatory_ref=entity.regulatory_ref,
             validity_days=entity.validity_days,
-            passing_score=entity.passing_score,
-            max_attempts=entity.max_attempts,
-            is_mandatory=entity.is_mandatory,
             visibility=entity.visibility,
             status=entity.status,
             created_at=entity.created_at,

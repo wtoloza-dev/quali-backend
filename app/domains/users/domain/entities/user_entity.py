@@ -21,6 +21,7 @@ class UserData(BaseModel):
     email: str
     document_type: str | None = None
     document_number: str | None = None
+    is_superadmin: bool = False
 
 
 class UserEntity(UserData, AuditEntity):

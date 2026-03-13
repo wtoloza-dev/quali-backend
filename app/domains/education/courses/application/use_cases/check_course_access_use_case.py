@@ -1,38 +1,51 @@
 """Check course access use case."""
 
-from ...domain.ports import CourseAccessRepositoryPort
+from datetime import UTC, datetime
+
+from app.domains.education.enrollments.domain.enums import AccessType
+from app.domains.education.enrollments.domain.ports import EnrollmentRepositoryPort
 
 
 class CheckCourseAccessUseCase:
-    """Determine whether a user has active access to a course.
+    """Determine whether a user has active full access to a course.
 
-    Used by routes to decide whether to return full lesson content
-    or a locked placeholder.
+    Checks the enrollment table for FULL access_type with a valid
+    (non-expired) date range.
 
     Args:
-        repository: Port implementation provided by the infrastructure layer.
+        enrollment_repository: Enrollment port to look up access.
     """
 
-    def __init__(self, repository: CourseAccessRepositoryPort) -> None:
-        """Initialise with the course access repository.
+    def __init__(self, enrollment_repository: EnrollmentRepositoryPort) -> None:
+        """Initialise with the enrollment repository.
 
         Args:
-            repository: Concrete repository injected by the infrastructure layer.
+            enrollment_repository: Concrete repository injected by the infrastructure layer.
         """
-        self._repository = repository
+        self._enrollment_repository = enrollment_repository
 
     async def execute(self, user_id: str, course_id: str) -> bool:
-        """Return True if the user has active (non-expired) access to the course.
+        """Return True if the user has active full access to the course.
 
         Args:
             user_id: ULID of the user.
             course_id: ULID of the course.
 
         Returns:
-            bool: True if active access exists, False otherwise.
+            bool: True if the user has non-expired FULL access.
         """
-        access = await self._repository.get_active_access(
+        enrollment = await self._enrollment_repository.get_by_user_and_course(
             user_id=user_id,
             course_id=course_id,
         )
-        return access is not None
+        if enrollment is None:
+            return False
+
+        if enrollment.access_type != AccessType.FULL:
+            return False
+
+        # Check expiration if end_date is set.
+        if enrollment.end_date is not None:
+            return datetime.now(UTC) < enrollment.end_date
+
+        return True

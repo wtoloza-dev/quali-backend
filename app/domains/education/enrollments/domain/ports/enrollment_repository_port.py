@@ -34,23 +34,6 @@ class EnrollmentRepositoryPort(Protocol):
         """
         ...
 
-    async def get_by_id_and_company(
-        self, enrollment_id: str, company_id: str
-    ) -> EnrollmentEntity | None:
-        """Retrieve an enrollment scoped to a specific company.
-
-        Returns None if the enrollment does not exist or belongs to a
-        different company, preventing cross-tenant data access.
-
-        Args:
-            enrollment_id: The ULID of the enrollment.
-            company_id: The ULID of the owning company.
-
-        Returns:
-            EnrollmentEntity if found within the company, None otherwise.
-        """
-        ...
-
     async def get_by_user_and_course(
         self, user_id: str, course_id: str
     ) -> EnrollmentEntity | None:
@@ -99,17 +82,15 @@ class EnrollmentRepositoryPort(Protocol):
         """
         ...
 
-    async def list_by_company(
+    async def list_by_user(
         self,
-        company_id: str,
         user_id: str,
         page: int,
         page_size: int,
     ) -> tuple[list[EnrollmentEntity], int]:
-        """Return paginated enrollments for a user within a company.
+        """Return paginated enrollments for a user.
 
         Args:
-            company_id: The company whose enrollments to list.
             user_id: The user whose enrollments to return.
             page: 1-based page number.
             page_size: Number of items per page.

@@ -91,6 +91,7 @@ class AccessCodeRepository:
         model.is_redeemed = entity.is_redeemed
         model.redeemed_by = entity.redeemed_by
         model.redeemed_at = entity.redeemed_at
+        model.enrollment_id = entity.enrollment_id
         model.updated_by = entity.updated_by
 
         self._session.add(model)
@@ -112,10 +113,10 @@ class AccessCodeRepository:
             id=model.id,
             code=model.code,
             course_id=model.course_id,
-            company_id=model.company_id,
             is_redeemed=model.is_redeemed,
             redeemed_by=model.redeemed_by,
             redeemed_at=model.redeemed_at,
+            enrollment_id=model.enrollment_id,
             created_at=model.created_at,
             created_by=model.created_by,
             updated_at=model.updated_at,
@@ -136,10 +137,10 @@ class AccessCodeRepository:
             id=entity.id,
             code=entity.code,
             course_id=entity.course_id,
-            company_id=entity.company_id,
             is_redeemed=entity.is_redeemed,
             redeemed_by=entity.redeemed_by,
             redeemed_at=entity.redeemed_at,
+            enrollment_id=entity.enrollment_id,
             created_at=entity.created_at,
             created_by=entity.created_by,
             updated_at=entity.updated_at,

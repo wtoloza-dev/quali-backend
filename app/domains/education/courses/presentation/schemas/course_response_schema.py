@@ -18,9 +18,6 @@ class CourseResponseSchema(BaseModel):
         vertical: Regulatory vertical.
         regulatory_ref: Optional regulatory clause reference.
         validity_days: Certificate validity in days.
-        passing_score: Minimum passing score.
-        max_attempts: Max assessment attempts.
-        is_mandatory: Whether completion is mandatory.
         visibility: PUBLIC or PRIVATE.
         status: Lifecycle status (draft, published, archived).
         created_at: Creation timestamp.
@@ -36,9 +33,6 @@ class CourseResponseSchema(BaseModel):
     vertical: CourseVertical
     regulatory_ref: str | None
     validity_days: int | None
-    passing_score: int
-    max_attempts: int
-    is_mandatory: bool
     visibility: CourseVisibility
     status: CourseStatus
     created_at: datetime

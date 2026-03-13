@@ -19,6 +19,8 @@ from .publish_course_route import router as publish_course_router
 from .reorder_lessons_route import router as reorder_lessons_router
 from .reorder_modules_route import router as reorder_modules_router
 from .update_course_route import router as update_course_router
+from .update_lesson_route import router as update_lesson_router
+from .update_module_route import router as update_module_router
 
 
 router = APIRouter()
@@ -32,9 +34,11 @@ router.include_router(archive_course_router)
 router.include_router(delete_course_router)
 router.include_router(list_modules_router)
 router.include_router(create_module_router)
+router.include_router(update_module_router)
 router.include_router(reorder_modules_router)
 router.include_router(delete_module_router)
 router.include_router(create_lesson_router)
+router.include_router(update_lesson_router)
 router.include_router(list_lessons_router)
 router.include_router(get_lesson_router)
 router.include_router(reorder_lessons_router)

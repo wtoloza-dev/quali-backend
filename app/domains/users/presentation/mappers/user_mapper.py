@@ -52,6 +52,7 @@ class UserMapper:
             email=entity.email,
             document_type=entity.document_type,
             document_number=entity.document_number,
+            is_superadmin=entity.is_superadmin,
             created_at=entity.created_at,
             created_by=entity.created_by,
             updated_at=entity.updated_at,

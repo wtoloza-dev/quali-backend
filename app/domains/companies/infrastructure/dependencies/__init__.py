@@ -20,6 +20,10 @@ from .build_delete_company_use_case_dependency import (
     DeleteCompanyUseCaseDependency,
     build_delete_company_use_case,
 )
+from .build_get_company_member_me_use_case_dependency import (
+    GetCompanyMemberMeUseCaseDependency,
+    build_get_company_member_me_use_case,
+)
 from .build_get_company_members_use_case_dependency import (
     GetCompanyMembersUseCaseDependency,
     build_get_company_members_use_case,
@@ -59,6 +63,8 @@ __all__ = [
     "CompanyMemberRepositoryDependency",
     "build_add_company_member_use_case",
     "AddCompanyMemberUseCaseDependency",
+    "build_get_company_member_me_use_case",
+    "GetCompanyMemberMeUseCaseDependency",
     "build_get_company_members_use_case",
     "GetCompanyMembersUseCaseDependency",
     "build_remove_company_member_use_case",

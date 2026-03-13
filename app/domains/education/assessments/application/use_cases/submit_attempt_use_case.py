@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 
 from ulid import ULID
 
-from app.domains.education.courses.domain.ports import CourseRepositoryPort
+from app.domains.education.courses.domain.ports import ModuleRepositoryPort
 from app.domains.education.enrollments.domain.enums import EnrollmentStatus
 from app.domains.education.enrollments.domain.ports import EnrollmentRepositoryPort
 from app.shared.exceptions import ForbiddenException, NotFoundException
@@ -36,12 +36,12 @@ class SubmitAttemptUseCase:
     def __init__(
         self,
         enrollment_repository: EnrollmentRepositoryPort,
-        course_repository: CourseRepositoryPort,
+        module_repository: ModuleRepositoryPort,
         question_repository: QuestionRepositoryPort,
         attempt_repository: AttemptRepositoryPort,
     ) -> None:
         self._enrollments = enrollment_repository
-        self._courses = course_repository
+        self._modules = module_repository
         self._questions = question_repository
         self._attempts = attempt_repository
 
@@ -64,9 +64,12 @@ class SubmitAttemptUseCase:
                 context={"enrollment_id": data.enrollment_id},
                 error_code="ENROLLMENT_ACCESS_DENIED",
             )
-        course = await self._courses.get_by_id(enrollment.course_id)
-
-        max_attempts = course.max_attempts if course else 3  # type: ignore[union-attr]
+        # Resolve passing_score and max_attempts from module
+        module = (
+            await self._modules.get_by_id(data.module_id) if data.module_id else None
+        )
+        passing_score = module.passing_score if module else 80
+        max_attempts = module.max_attempts if module else 3
 
         # Count attempts scoped to module when provided
         if data.module_id:
@@ -74,7 +77,9 @@ class SubmitAttemptUseCase:
                 data.enrollment_id, data.module_id
             )
         else:
-            existing_count = await self._attempts.count_by_enrollment(data.enrollment_id)
+            existing_count = await self._attempts.count_by_enrollment(
+                data.enrollment_id
+            )
 
         if existing_count >= max_attempts:
             raise MaxAttemptsExceededException(
@@ -90,7 +95,6 @@ class SubmitAttemptUseCase:
 
         score, correct_question_ids = self._score_answers(data.answers, questions)
 
-        passing_score = course.passing_score if course else 80  # type: ignore[union-attr]
         passed = score >= passing_score
 
         now = datetime.now(UTC)
@@ -111,35 +115,45 @@ class SubmitAttemptUseCase:
         )
         saved_attempt = await self._attempts.save(attempt)
 
-        # Update enrollment status (only for course-level or when module passes)
-        if enrollment is not None and passed and not data.module_id:
+        # Move to IN_PROGRESS on first attempt (module or course-level)
+        if enrollment.status == EnrollmentStatus.NOT_STARTED:
             updated_enrollment = enrollment.model_copy(
                 update={
-                    "status": EnrollmentStatus.COMPLETED,
-                    "completed_at": now,
+                    "status": EnrollmentStatus.IN_PROGRESS,
                     "updated_by": submitted_by,
                 }
             )
             await self._enrollments.update(updated_enrollment)
-        elif enrollment is not None and not data.module_id:
-            attempts_exhausted = (existing_count + 1) >= max_attempts
-            if attempts_exhausted:
-                new_status = EnrollmentStatus.FAILED
+            enrollment = updated_enrollment
+
+        # Course-level attempt: update to COMPLETED or FAILED
+        if not data.module_id:
+            if passed:
+                updated_enrollment = enrollment.model_copy(
+                    update={
+                        "status": EnrollmentStatus.COMPLETED,
+                        "completed_at": now,
+                        "updated_by": submitted_by,
+                    }
+                )
+                await self._enrollments.update(updated_enrollment)
             else:
-                new_status = EnrollmentStatus.IN_PROGRESS
-
-            completed_at = enrollment.completed_at
-            if new_status == EnrollmentStatus.FAILED:
-                completed_at = now
-
-            updated_enrollment = enrollment.model_copy(
-                update={
-                    "status": new_status,
-                    "completed_at": completed_at,
-                    "updated_by": submitted_by,
-                }
-            )
-            await self._enrollments.update(updated_enrollment)
+                attempts_exhausted = (existing_count + 1) >= max_attempts
+                new_status = (
+                    EnrollmentStatus.FAILED
+                    if attempts_exhausted
+                    else EnrollmentStatus.IN_PROGRESS
+                )
+                updated_enrollment = enrollment.model_copy(
+                    update={
+                        "status": new_status,
+                        "completed_at": now
+                        if new_status == EnrollmentStatus.FAILED
+                        else enrollment.completed_at,
+                        "updated_by": submitted_by,
+                    }
+                )
+                await self._enrollments.update(updated_enrollment)
 
         return saved_attempt
 
@@ -206,9 +220,7 @@ class SubmitAttemptUseCase:
                             key = f"{clue.row + i},{clue.col}"
                         expected[key] = char
                 user_cells = {k: v.upper() for k, v in answer.cell_answers.items()}
-                is_correct = all(
-                    user_cells.get(k) == v for k, v in expected.items()
-                )
+                is_correct = all(user_cells.get(k) == v for k, v in expected.items())
 
             elif question.question_type == QuestionType.SORTING:
                 cfg = question.config
@@ -219,15 +231,23 @@ class SubmitAttemptUseCase:
             elif question.question_type == QuestionType.CLASSIFICATION:
                 cfg = question.config
                 assert isinstance(cfg, ClassificationConfig)
-                expected_class = {item.text.upper(): item.correct_category for item in cfg.items}
-                student_class = {k.upper(): v for k, v in answer.classified_items.items()}
+                expected_class = {
+                    item.text.upper(): item.correct_category for item in cfg.items
+                }
+                student_class = {
+                    k.upper(): v for k, v in answer.classified_items.items()
+                }
                 is_correct = expected_class == student_class
 
             elif question.question_type == QuestionType.MATCHING:
                 cfg = question.config
                 assert isinstance(cfg, MatchingConfig)
-                expected_match = {pair.left.upper(): pair.right.upper() for pair in cfg.pairs}
-                student_match = {k.upper(): v.upper() for k, v in answer.matched_pairs.items()}
+                expected_match = {
+                    pair.left.upper(): pair.right.upper() for pair in cfg.pairs
+                }
+                student_match = {
+                    k.upper(): v.upper() for k, v in answer.matched_pairs.items()
+                }
                 is_correct = expected_match == student_match
 
             if is_correct:

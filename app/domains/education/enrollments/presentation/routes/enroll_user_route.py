@@ -32,7 +32,6 @@ router = APIRouter()
     summary="Enroll a user in a course",
 )
 async def handle_enroll_user_route(
-    company_id: str,
     body: EnrollUserRequestSchema,
     request: Request,
     use_case: EnrollUserUseCaseDependency,
@@ -42,7 +41,6 @@ async def handle_enroll_user_route(
     """Handle POST requests to enroll a user in a course.
 
     Args:
-        company_id: ULID of the company (from URL path).
         body: Enrollment request data.
         request: FastAPI request (for client IP).
         use_case: Injected EnrollUserUseCase.
@@ -61,7 +59,6 @@ async def handle_enroll_user_route(
     data = EnrollmentData(
         user_id=auth.user_id,
         course_id=body.course_id,
-        company_id=company_id,
         is_mandatory=body.is_mandatory,
     )
     entity = await use_case.execute(data=data, created_by=auth.user_id)

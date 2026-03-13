@@ -10,6 +10,7 @@ from .module_response_schema import ModuleResponseSchema
 from .reorder_schema import ReorderRequestSchema
 from .update_course_schema import UpdateCourseRequestSchema
 from .update_lesson_schema import UpdateLessonRequestSchema
+from .update_module_schema import UpdateModuleRequestSchema
 
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "UpdateCourseRequestSchema",
     "CourseResponseSchema",
     "CreateModuleRequestSchema",
+    "UpdateModuleRequestSchema",
     "ModuleResponseSchema",
     "ContentBlockSchema",
     "CreateLessonRequestSchema",

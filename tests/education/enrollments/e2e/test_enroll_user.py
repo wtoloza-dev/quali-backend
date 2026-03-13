@@ -14,8 +14,10 @@ class TestEnrollUser:
         assert response.status_code == 201
         data = response.json()
         assert data["course_id"] == course["id"]
-        assert data["company_id"] == company["id"]
         assert data["status"] == "not_started"
+        assert data["access_type"] == "preview"
+        assert data["start_date"] is None
+        assert data["end_date"] is None
         assert "id" in data
         assert "enrolled_at" in data
 

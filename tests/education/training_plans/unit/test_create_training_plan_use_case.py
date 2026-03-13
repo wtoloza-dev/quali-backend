@@ -31,7 +31,6 @@ class FakeTrainingPlanRepository:
             return None
         return entity
 
-
     async def update(self, entity):
         self._store[entity.id] = entity
         return entity

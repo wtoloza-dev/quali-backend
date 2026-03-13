@@ -39,7 +39,6 @@ async def handle_generate_access_codes_route(
     """
     entities = await use_case.execute(
         course_id=course_id,
-        company_id=company_id,
         quantity=body.quantity,
         created_by=auth.user_id,
     )

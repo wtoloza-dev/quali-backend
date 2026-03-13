@@ -3,6 +3,7 @@
 from .add_company_member_use_case import AddCompanyMemberUseCase
 from .create_company_use_case import CreateCompanyUseCase
 from .delete_company_use_case import DeleteCompanyUseCase
+from .get_company_member_me_use_case import GetCompanyMemberMeUseCase
 from .get_company_members_use_case import GetCompanyMembersUseCase
 from .get_company_use_case import GetCompanyUseCase
 from .list_companies_use_case import ListCompaniesUseCase
@@ -17,6 +18,7 @@ __all__ = [
     "ListCompaniesUseCase",
     "UpdateCompanyUseCase",
     "AddCompanyMemberUseCase",
+    "GetCompanyMemberMeUseCase",
     "GetCompanyMembersUseCase",
     "RemoveCompanyMemberUseCase",
 ]

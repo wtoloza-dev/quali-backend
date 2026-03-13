@@ -53,6 +53,7 @@ class GetUserByIdAdapter:
             email=entity.email,
             first_name=entity.first_name,
             last_name=entity.last_name,
+            is_superadmin=entity.is_superadmin,
         )
 
 

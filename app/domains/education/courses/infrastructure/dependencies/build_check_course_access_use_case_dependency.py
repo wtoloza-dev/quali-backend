@@ -4,22 +4,27 @@ from typing import Annotated
 
 from fastapi import Depends
 
+from app.domains.education.enrollments.infrastructure.dependencies.build_enrollment_repository_dependency import (
+    EnrollmentRepositoryDependency,
+)
+
 from ...application.use_cases import CheckCourseAccessUseCase
-from .build_course_access_repository_dependency import CourseAccessRepositoryDependency
 
 
 def build_check_course_access_use_case(
-    repository: CourseAccessRepositoryDependency,
+    enrollment_repository: EnrollmentRepositoryDependency,
 ) -> CheckCourseAccessUseCase:
     """Build a CheckCourseAccessUseCase with all dependencies injected.
 
     Args:
-        repository: Course access repository injected by FastAPI.
+        enrollment_repository: Enrollment repository injected by FastAPI.
 
     Returns:
         CheckCourseAccessUseCase: Use case instance ready for execution.
     """
-    return CheckCourseAccessUseCase(repository=repository)
+    return CheckCourseAccessUseCase(
+        enrollment_repository=enrollment_repository,
+    )
 
 
 CheckCourseAccessUseCaseDependency = Annotated[

@@ -131,6 +131,11 @@ class MatchingConfig(BaseModel):
 # ── Discriminated union ────────────────────────────────────────────────
 
 QuestionConfig = Annotated[
-    MultipleChoiceConfig | WordSearchConfig | CrosswordConfig | SortingConfig | ClassificationConfig | MatchingConfig,
+    MultipleChoiceConfig
+    | WordSearchConfig
+    | CrosswordConfig
+    | SortingConfig
+    | ClassificationConfig
+    | MatchingConfig,
     Field(discriminator="type"),
 ]

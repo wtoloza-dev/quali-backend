@@ -18,8 +18,6 @@ class CoursePublicResponseSchema(BaseModel):
         vertical: Regulatory vertical.
         regulatory_ref: Optional regulatory clause reference.
         validity_days: Certificate validity in days.
-        passing_score: Minimum passing score.
-        is_mandatory: Whether completion is mandatory.
         visibility: PUBLIC or PRIVATE.
         status: Lifecycle status.
     """
@@ -30,7 +28,5 @@ class CoursePublicResponseSchema(BaseModel):
     vertical: CourseVertical
     regulatory_ref: str | None
     validity_days: int | None
-    passing_score: int
-    is_mandatory: bool
     visibility: CourseVisibility
     status: CourseStatus

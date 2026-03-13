@@ -23,16 +23,22 @@ class GetCompanyUseCase:
     async def execute(self, company_id: str) -> CompanyEntity:
         """Execute the get company workflow.
 
+        Accepts either a ULID or a slug. Tries by ID first, then falls
+        back to slug lookup.
+
         Args:
-            company_id: ULID of the company to retrieve.
+            company_id: ULID or slug of the company to retrieve.
 
         Returns:
             CompanyEntity: The found company entity.
 
         Raises:
-            CompanyNotFoundException: If no company exists with the given ID.
+            CompanyNotFoundException: If no company exists with the given
+                identifier.
         """
         entity = await self._repository.get_by_id(company_id)
+        if entity is None:
+            entity = await self._repository.get_by_slug(company_id)
         if entity is None:
             raise CompanyNotFoundException(company_id=company_id)
         return entity

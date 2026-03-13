@@ -16,7 +16,6 @@ router = APIRouter()
     summary="Remove an enrollment",
 )
 async def handle_unenroll_route(
-    company_id: str,
     enrollment_id: str,
     use_case: UnenrollUseCaseDependency,
     auth: CurrentUserDependency,
@@ -24,13 +23,11 @@ async def handle_unenroll_route(
     """Handle DELETE requests to remove an enrollment.
 
     Args:
-        company_id: ULID of the owning company (from URL path).
         enrollment_id: ULID of the enrollment to remove.
         use_case: Injected UnenrollUseCase.
         auth: Authenticated user context.
     """
     await use_case.execute(
         enrollment_id=enrollment_id,
-        company_id=company_id,
         deleted_by=auth.user_id,
     )

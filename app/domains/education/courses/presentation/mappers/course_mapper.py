@@ -35,8 +35,6 @@ class CourseMapper:
             vertical=entity.vertical,
             regulatory_ref=entity.regulatory_ref,
             validity_days=entity.validity_days,
-            passing_score=entity.passing_score,
-            is_mandatory=entity.is_mandatory,
             visibility=entity.visibility,
             status=entity.status,
         )
@@ -59,9 +57,6 @@ class CourseMapper:
             vertical=entity.vertical,
             regulatory_ref=entity.regulatory_ref,
             validity_days=entity.validity_days,
-            passing_score=entity.passing_score,
-            max_attempts=entity.max_attempts,
-            is_mandatory=entity.is_mandatory,
             visibility=entity.visibility,
             status=entity.status,
             created_at=entity.created_at,

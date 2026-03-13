@@ -29,15 +29,13 @@ class UpdateEnrollmentStatusUseCase:
     async def execute(
         self,
         enrollment_id: str,
-        company_id: str,
         status: EnrollmentStatus,
         updated_by: str,
     ) -> EnrollmentEntity:
-        """Update the status of an enrollment scoped to a company.
+        """Update the status of an enrollment.
 
         Args:
             enrollment_id: ULID of the enrollment to update.
-            company_id: ULID of the owning company for tenant scoping.
             status: The new enrollment status.
             updated_by: ULID of the actor performing the update.
 
@@ -45,10 +43,9 @@ class UpdateEnrollmentStatusUseCase:
             EnrollmentEntity: The updated enrollment.
 
         Raises:
-            EnrollmentNotFoundException: If no enrollment with that ID
-                exists within the given company.
+            EnrollmentNotFoundException: If no enrollment with that ID exists.
         """
-        entity = await self._repository.get_by_id_and_company(enrollment_id, company_id)
+        entity = await self._repository.get_by_id(enrollment_id)
         if entity is None:
             raise EnrollmentNotFoundException(enrollment_id)
 

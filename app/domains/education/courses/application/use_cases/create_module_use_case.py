@@ -60,6 +60,8 @@ class CreateModuleUseCase:
             course_id=data.course_id,
             title=data.title,
             order=data.order,
+            passing_score=data.passing_score,
+            max_attempts=data.max_attempts,
             created_at=now,
             created_by=created_by,
             updated_at=None,

@@ -16,10 +16,9 @@ router = APIRouter()
 @router.get(
     path="/",
     status_code=status.HTTP_200_OK,
-    summary="List enrollments for a company",
+    summary="List enrollments for the authenticated user",
 )
 async def handle_list_enrollments_route(
-    company_id: str,
     use_case: ListEnrollmentsUseCaseDependency,
     auth: CurrentUserDependency,
     params: PaginationParams = PaginationParams(),
@@ -27,7 +26,6 @@ async def handle_list_enrollments_route(
     """Handle GET requests to list enrollments for the authenticated user.
 
     Args:
-        company_id: ULID of the company (from URL path).
         use_case: Injected ListEnrollmentsUseCase.
         auth: Authenticated user context.
         params: Pagination parameters.
@@ -36,7 +34,6 @@ async def handle_list_enrollments_route(
         PaginatedResponse[EnrollmentResponseSchema]: Paginated enrollment list.
     """
     items, total = await use_case.execute(
-        company_id=company_id,
         user_id=auth.user_id,
         params=params,
     )
