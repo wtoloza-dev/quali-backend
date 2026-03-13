@@ -206,6 +206,44 @@ class EnrollmentRepository:
         models = (await self._session.exec(stmt)).all()
         return [self._to_entity(m) for m in models], total
 
+    async def list_by_company(
+        self,
+        company_id: str,
+        page: int,
+        page_size: int,
+    ) -> tuple[list[EnrollmentEntity], int]:
+        """Return paginated enrollments for all courses in a company.
+
+        Args:
+            company_id: ULID of the company.
+            page: 1-based page number.
+            page_size: Number of items per page.
+
+        Returns:
+            Tuple of (list of EnrollmentEntity, total count).
+        """
+        from app.domains.education.courses.infrastructure.models.course_model import (
+            CourseModel,
+        )
+
+        count_stmt = (
+            select(func.count())
+            .select_from(EnrollmentModel)
+            .join(CourseModel, EnrollmentModel.course_id == CourseModel.id)
+            .where(CourseModel.company_id == company_id)
+        )
+        total = (await self._session.exec(count_stmt)).one()
+
+        stmt = (
+            select(EnrollmentModel)
+            .join(CourseModel, EnrollmentModel.course_id == CourseModel.id)
+            .where(CourseModel.company_id == company_id)
+            .offset((page - 1) * page_size)
+            .limit(page_size)
+        )
+        models = (await self._session.exec(stmt)).all()
+        return [self._to_entity(m) for m in models], total
+
     @staticmethod
     def _to_entity(model: EnrollmentModel) -> EnrollmentEntity:
         """Map an EnrollmentModel ORM instance to an EnrollmentEntity.
