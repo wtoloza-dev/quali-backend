@@ -35,6 +35,7 @@ class CertificatePrivateResponseSchema(BaseModel):
     id: str
     company_id: str
     recipient_id: str
+    recipient_name: str | None = None
     title: str
     description: str | None
     token: str
