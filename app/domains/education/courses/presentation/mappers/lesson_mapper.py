@@ -3,6 +3,7 @@
 from ...domain.entities import LessonEntity
 from ..schemas.content_block_schema import ContentBlockSchema
 from ..schemas.lesson_response_schema import LessonResponseSchema
+from ..schemas.lesson_summary_schema import LessonSummaryResponseSchema
 
 
 class LessonMapper:
@@ -12,6 +13,25 @@ class LessonMapper:
     content blocks from lessons the requester is not allowed to read,
     and sets is_locked=True so the frontend can display a paywall.
     """
+
+    @staticmethod
+    def to_summary(entity: LessonEntity) -> LessonSummaryResponseSchema:
+        """Map a LessonEntity to a lightweight summary without content.
+
+        Args:
+            entity: The lesson entity to serialize.
+
+        Returns:
+            LessonSummaryResponseSchema: Lightweight lesson representation.
+        """
+        return LessonSummaryResponseSchema(
+            id=entity.id,
+            module_id=entity.module_id,
+            title=entity.title,
+            is_preview=entity.is_preview,
+            order=entity.order,
+            created_at=entity.created_at,
+        )
 
     @staticmethod
     def to_response(entity: LessonEntity, has_access: bool) -> LessonResponseSchema:

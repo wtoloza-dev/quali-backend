@@ -9,6 +9,7 @@ from app.shared.auth.require_role import require_role
 from app.shared.auth.role import Role
 
 from ...infrastructure.dependencies import ResetAttemptsUseCaseDependency
+from ..schemas.reset_attempts_response_schema import ResetAttemptsResponseSchema
 
 
 router = APIRouter()
@@ -25,7 +26,7 @@ async def handle_reset_attempts_route(
     use_case: ResetAttemptsUseCaseDependency,
     auth: Annotated[AuthContext, require_role(Role.ADMIN)],
     module_id: str | None = Query(default=None),
-) -> dict:
+) -> ResetAttemptsResponseSchema:
     """Handle DELETE requests to reset attempts for an enrollment.
 
     When module_id is provided, only that module's attempts are deleted.
@@ -40,11 +41,11 @@ async def handle_reset_attempts_route(
         module_id: Optional ULID of the module to scope the reset.
 
     Returns:
-        dict with the number of deleted attempts.
+        ResetAttemptsResponseSchema: The number of deleted attempts.
     """
     deleted_count = await use_case.execute(
         enrollment_id=enrollment_id,
         reset_by=auth.user_id,
         module_id=module_id,
     )
-    return {"deleted_count": deleted_count}
+    return ResetAttemptsResponseSchema(deleted_count=deleted_count)

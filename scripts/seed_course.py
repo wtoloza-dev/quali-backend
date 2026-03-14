@@ -16,6 +16,7 @@ from pathlib import Path
 
 import httpx
 
+
 BASE_URL = "http://localhost:8000/api/v1"
 COURSES_DIR = Path(__file__).resolve().parent.parent.parent / "quali-courses" / "manipulacion-higienica-alimentos"
 

@@ -19,7 +19,7 @@ class CertificateContractResult(BaseModel):
     company_id: str
     recipient_id: str
     title: str
-    description: str
+    description: str | None
     token: str
     status: str
     issued_at: datetime

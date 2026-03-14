@@ -5,6 +5,7 @@ from fastapi import APIRouter, status
 from app.shared.auth.dependencies import CurrentUserDependency
 
 from ...infrastructure.dependencies import CheckCourseAccessUseCaseDependency
+from ..schemas.course_access_response_schema import CourseAccessResponseSchema
 
 
 router = APIRouter()
@@ -19,7 +20,7 @@ async def handle_check_course_access_route(
     course_id: str,
     use_case: CheckCourseAccessUseCaseDependency,
     auth: CurrentUserDependency,
-) -> dict:
+) -> CourseAccessResponseSchema:
     """Handle GET requests to check course access for the authenticated user.
 
     Args:
@@ -28,10 +29,10 @@ async def handle_check_course_access_route(
         auth: Authenticated user context.
 
     Returns:
-        dict: {"has_access": bool}
+        CourseAccessResponseSchema: Whether the user has course access.
     """
     has_access = await use_case.execute(
         user_id=auth.user_id,
         course_id=course_id,
     )
-    return {"has_access": has_access}
+    return CourseAccessResponseSchema(has_access=has_access)

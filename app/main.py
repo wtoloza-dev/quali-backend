@@ -5,11 +5,14 @@ instance used as the entry point for the entire backend.
 """
 
 from fastapi import APIRouter, FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.errors import register_error_handlers
 from app.core.lifespans import lifespan
-from app.core.middlewares import AuthMiddleware, ObservabilityMiddleware
+from app.core.middlewares import (
+    AuthMiddleware,
+    ObservabilityMiddleware,
+    QualiCORSMiddleware,
+)
 from app.core.settings import settings
 from app.domains.certification.presentation.routes import (
     company_router as cert_company_router,
@@ -130,20 +133,7 @@ def register_middlewares(app: FastAPI) -> None:
         app: The FastAPI application instance.
     """
     app.add_middleware(AuthMiddleware)
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[
-            "http://localhost:3000",
-            "http://localhost:3001",
-            "http://localhost:3002",
-            "https://quali.tchunza.com",
-            "https://company.quali.tchunza.com",
-            "https://admin.quali.tchunza.com",
-        ],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    app.add_middleware(QualiCORSMiddleware)
     app.add_middleware(ObservabilityMiddleware)
 
 

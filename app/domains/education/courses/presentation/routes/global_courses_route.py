@@ -19,6 +19,7 @@ from ...infrastructure.dependencies import (
     ListModulesUseCaseDependency,
 )
 from ..mappers.course_mapper import CourseMapper
+from ..mappers.lesson_mapper import LessonMapper
 from ..mappers.module_mapper import ModuleMapper
 from ..schemas.course_response_schema import CourseResponseSchema
 from ..schemas.lesson_summary_schema import LessonSummaryResponseSchema
@@ -143,14 +144,4 @@ async def handle_list_all_module_lessons_route(
     """
     await _require_superadmin(auth, get_user)
     items = await use_case.execute(module_id=module_id)
-    return [
-        LessonSummaryResponseSchema(
-            id=lesson.id,
-            module_id=lesson.module_id,
-            title=lesson.title,
-            is_preview=lesson.is_preview,
-            order=lesson.order,
-            created_at=lesson.created_at,
-        )
-        for lesson in items
-    ]
+    return [LessonMapper.to_summary(lesson) for lesson in items]

@@ -18,6 +18,7 @@ from pathlib import Path
 
 import httpx
 
+
 BASE_URL = "http://localhost:8000/api/v1"
 SEED_USER_ID = "seed-local-dev"
 DATA_DIR = Path(__file__).resolve().parent / "data"

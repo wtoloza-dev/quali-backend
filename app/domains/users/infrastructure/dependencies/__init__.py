@@ -16,6 +16,10 @@ from .build_list_users_use_case_dependency import (
     ListUsersUseCaseDependency,
     build_list_users_use_case,
 )
+from .build_search_user_by_email_use_case_dependency import (
+    SearchUserByEmailUseCaseDependency,
+    build_search_user_by_email_use_case,
+)
 from .build_update_user_use_case_dependency import (
     UpdateUserUseCaseDependency,
     build_update_user_use_case,
@@ -35,6 +39,8 @@ __all__ = [
     "GetUserUseCaseDependency",
     "build_list_users_use_case",
     "ListUsersUseCaseDependency",
+    "build_search_user_by_email_use_case",
+    "SearchUserByEmailUseCaseDependency",
     "build_update_user_use_case",
     "UpdateUserUseCaseDependency",
     "build_delete_user_use_case",

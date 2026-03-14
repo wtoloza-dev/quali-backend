@@ -12,12 +12,9 @@ UnauthorizedException if no context was set.
 
 from starlette.types import ASGIApp, Receive, Scope, Send
 
-from app.core.settings import settings
-from app.shared.auth.auth_context import AuthContext
 from app.shared.auth.auth_context_var import reset_auth_context, set_auth_context
 from app.shared.exceptions import UnauthorizedException
 from app.shared.services.firebase_auth_service import get_firebase_auth_service
-_DEV_SEED_HEADER = "x-dev-seed"
 
 
 class AuthMiddleware:
@@ -63,12 +60,6 @@ class AuthMiddleware:
                     reset_token = set_auth_context(ctx)
                 except (UnauthorizedException, Exception):
                     pass  # soft fail — unauthenticated routes still work
-            elif settings.SCOPE == "local" and headers.get(b"x-dev-seed"):
-                # Local dev bypass: allow seed scripts to authenticate
-                # by sending the x-dev-seed header with a fake user ID.
-                fake_uid = headers[b"x-dev-seed"].decode()
-                ctx = AuthContext(user_id=fake_uid, email="seed@localhost")
-                reset_token = set_auth_context(ctx)
 
         try:
             await self.app(scope, receive, send)

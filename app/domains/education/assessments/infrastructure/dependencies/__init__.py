@@ -1,5 +1,8 @@
 """Assessments subdomain dependency factories."""
 
+from .build_admin_list_attempts_use_case_dependency import (
+    AdminListAttemptsUseCaseDependency,
+)
 from .build_attempt_repository_dependency import AttemptRepositoryDependency
 from .build_create_question_use_case_dependency import CreateQuestionUseCaseDependency
 from .build_delete_question_use_case_dependency import DeleteQuestionUseCaseDependency
@@ -11,6 +14,7 @@ from .build_submit_attempt_use_case_dependency import SubmitAttemptUseCaseDepend
 
 
 __all__ = [
+    "AdminListAttemptsUseCaseDependency",
     "QuestionRepositoryDependency",
     "AttemptRepositoryDependency",
     "CreateQuestionUseCaseDependency",

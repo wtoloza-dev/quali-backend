@@ -4,7 +4,7 @@ from fastapi import APIRouter, Query, status
 
 from app.shared.auth.dependencies import CurrentUserDependency
 
-from ...infrastructure.dependencies import UserRepositoryDependency
+from ...infrastructure.dependencies import SearchUserByEmailUseCaseDependency
 from ..mappers.user_mapper import UserMapper
 from ..schemas import UserPrivateResponseSchema
 
@@ -19,21 +19,21 @@ router = APIRouter()
     description="Searches for a user by exact email match. Superadmin only.",
 )
 async def handle_search_user_by_email_route(
+    use_case: SearchUserByEmailUseCaseDependency,
+    auth: CurrentUserDependency,
     email: str = Query(..., description="Exact email address to search for"),
-    repository: UserRepositoryDependency = ...,
-    auth: CurrentUserDependency = ...,
 ) -> UserPrivateResponseSchema | None:
     """Handle GET requests to search a user by email.
 
     Args:
-        email: The email address to search for.
-        repository: Injected user repository.
+        use_case: Injected SearchUserByEmailUseCase.
         auth: Authenticated user context.
+        email: The email address to search for.
 
     Returns:
         UserPrivateResponseSchema if found, null otherwise.
     """
-    entity = await repository.get_by_email(email)
+    entity = await use_case.execute(email)
     if entity is None:
         return None
     return UserMapper.to_private_response(entity)

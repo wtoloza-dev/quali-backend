@@ -15,7 +15,7 @@ router = APIRouter()
 
 @router.post(
     path="/redeem",
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_201_CREATED,
     summary="Redeem an access code",
 )
 async def handle_redeem_access_code_route(

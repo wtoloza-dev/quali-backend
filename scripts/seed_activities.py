@@ -14,6 +14,7 @@ import sys
 
 import httpx
 
+
 BASE_URL = "http://localhost:8000/api/v1"
 COMPANY_ID = "01KKF8NQXSK4367MVSVZYM9NJ2"
 COURSE_ID = "01KKF8NQZN28DWBR9X8HWA89VP"

@@ -9,13 +9,13 @@ from sqlmodel import SQLModel
 # Import all SQLModel models so their metadata is registered.
 # Add new domain models here as they are created.
 import app.domains.certification.infrastructure.models  # noqa: F401
-import app.domains.legal.infrastructure.models  # noqa: F401
 import app.domains.companies.infrastructure.models  # noqa: F401
+import app.domains.education.access_codes.infrastructure.models  # noqa: F401
 import app.domains.education.assessments.infrastructure.models  # noqa: F401
 import app.domains.education.courses.infrastructure.models  # noqa: F401
 import app.domains.education.enrollments.infrastructure.models  # noqa: F401
-import app.domains.education.access_codes.infrastructure.models  # noqa: F401
 import app.domains.education.training_plans.infrastructure.models  # noqa: F401
+import app.domains.legal.infrastructure.models  # noqa: F401
 import app.domains.users.infrastructure.models  # noqa: F401
 import app.shared.models  # noqa: F401
 from app.core.settings import settings
